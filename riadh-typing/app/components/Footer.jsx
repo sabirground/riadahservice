@@ -205,7 +205,7 @@ export default function Footer() {
             <div className="flex flex-col md:flex-row items-center justify-between gap-4">
               <p className="text-sm text-slate-500">
                 © {new Date().getFullYear()} Riadah Services. All rights
-                reserved.
+                reserved.|Developed by Sabir
               </p>
 
               <div className="flex items-center gap-6">

@@ -19,7 +19,7 @@ const owners = [
   },
   {
     name: "Noorul Ameen",
-    designation: "Managing Director",
+    designation: "Operations Director",
     image: "/team/Noorul Ameen.jpeg",
   },
   {
@@ -37,7 +37,7 @@ const employees = [
   },
   {
     name: "Afsal",
-    designation: "Senior Typist",
+    designation: "Office Administrator",
     image: "/team/Afsal.jpeg",
   },
   {

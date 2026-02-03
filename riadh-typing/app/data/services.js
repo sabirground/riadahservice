@@ -39,7 +39,6 @@ const rawServices = [
       "Renew Residency Visa",
     ],
   },
-  { category: "INJAZ", image: "/Images/injaz.jpg", items: ["INJAZ"] },
   {
     category: "Visit / Tourist Visa",
     image: "/Images/dubaivisachange.webp",
@@ -63,11 +62,6 @@ const rawServices = [
       "Commercial Contract",
       "Declaration",
     ],
-  },
-  {
-    category: "Equivalency",
-    image: "/Images/visa.jpeg",
-    items: ["Equivalency Diploma", "Equivalency Bachelors"],
   },
   {
     category: "Vehicles & Drivers",

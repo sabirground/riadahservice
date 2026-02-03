@@ -1,6 +1,7 @@
 import "./globals.css";
 import Navbar from "@/app/components/Navbar";
 import Footer from "@/app/components/Footer";
+import WhatsAppButton from "@/app/components/WhatsAppButton";
 
 export const metadata = {
   title: "Riadah Services | Professional Business Services in UAE",
@@ -48,6 +49,7 @@ export default function RootLayout({ children }) {
       <body className="font-body antialiased bg-sand-50">
         <Navbar />
         <main className="min-h-screen">{children}</main>
+        <WhatsAppButton />
         <Footer />
       </body>
     </html>
