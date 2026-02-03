@@ -27,7 +27,20 @@ const EnquiryForm = ({ preSelectedServices = [] }) => {
   const [servicesSearchTerm, setServicesSearchTerm] = useState('');
 
   const onSubmit = async (data) => {
-  const token = null; // captcha disabled for now
+    const token = null; // captcha disabled for now
+
+    // Log form data for debugging
+    console.log("Form submission data:", {
+      ...data,
+      countryCode: selectedCountry.dialCode,
+      selectedServices,
+    });
+
+    // Validate services
+    if (!selectedServices || selectedServices.length === 0) {
+      alert("Please select at least one service");
+      return;
+    }
 
     setIsLoading(true);
 
@@ -35,18 +48,25 @@ const EnquiryForm = ({ preSelectedServices = [] }) => {
       const response = await fetch("/api/enquiry", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ ...data }),
-
+        body: JSON.stringify({ 
+          ...data, 
+          countryCode: selectedCountry.dialCode, 
+          services: selectedServices 
+        }),
       });
 
-      if (response.ok) {
+      const result = await response.json();
+
+      if (response.ok && result.success) {
         setIsSubmitted(true);
         setSubmittedData(data);
       } else {
-        alert("Failed to submit enquiry. Please try again.");
+        console.error("Enquiry submission failed:", result);
+        alert(`Failed to submit enquiry: ${result.message || "Please try again"}`);
       }
     } catch (error) {
-      alert("An error occurred. Please try again.");
+      console.error("Enquiry submission error:", error);
+      alert(`An error occurred: ${error.message || "Please check your internet connection and try again"}`);
     } finally {
       setIsLoading(false);
     }

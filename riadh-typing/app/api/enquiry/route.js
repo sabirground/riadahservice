@@ -418,7 +418,11 @@ export async function POST(req) {
   } catch (error) {
     console.error("Enquiry API Error:", error);
     return new Response(
-      JSON.stringify({ success: false, message: "Server error" }),
+      JSON.stringify({ 
+        success: false, 
+        message: "Server error",
+        error: process.env.NODE_ENV === 'development' ? error.message : undefined
+      }),
       { status: 500 }
     );
   }
