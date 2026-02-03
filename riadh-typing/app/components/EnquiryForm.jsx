@@ -850,14 +850,7 @@ const EnquiryForm = ({ preSelectedServices = [] }) => {
                   </motion.div>
                 )}
 
-                {/* Hidden input for form submission */}
-                <input
-                  type="hidden"
-                  {...register("services", {
-                    required: "Please select at least one service",
-                  })}
-                  value={selectedServices}
-                />
+
               </div>
 
               {selectedServices.length > 0 && (
