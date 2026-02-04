@@ -2,6 +2,7 @@ import "./globals.css";
 import Navbar from "@/app/components/Navbar";
 import Footer from "@/app/components/Footer";
 import WhatsAppButton from "@/app/components/WhatsAppButton";
+import ChatWidget from "@/app/components/ChatWidget";
 
 export const metadata = {
   title: "Riadah Services | Professional Business Services in UAE",
@@ -50,6 +51,7 @@ export default function RootLayout({ children }) {
         <Navbar />
         <main className="min-h-screen">{children}</main>
         <WhatsAppButton />
+        <ChatWidget />
         <Footer />
       </body>
     </html>

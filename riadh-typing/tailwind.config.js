@@ -23,55 +23,65 @@ module.exports = {
         'body-sm': ['clamp(0.8125rem, 0.775rem + 0.15vw, 0.9375rem)', { lineHeight: '1.55' }],
         'body-xs': ['clamp(0.6875rem, 0.65rem + 0.15vw, 0.8125rem)', { lineHeight: '1.5' }],
       },
-      colors: {
-        // UAE Government Premium Color Palette
-        primary: {
-          DEFAULT: '#0b3c5d',
-          50: '#e6f0f5',
-          100: '#cce0eb',
-          200: '#99c1d7',
-          300: '#66a2c3',
-          400: '#3383af',
-          500: '#0b3c5d',
-          600: '#09364a',
-          700: '#072a3a',
-          800: '#051e2a',
-          900: '#03121a',
-        },
-        // Desert Sand Palette
-        sand: {
-          DEFAULT: '#c9b99a',
-          50: '#faf8f4',
-          100: '#f5f0e8',
-          200: '#ebe0d1',
-          300: '#e0d0ba',
-          400: '#d5c0a3',
-          500: '#c9b99a',
-          600: '#b5a27a',
-          700: '#a08b5a',
-          800: '#8b743a',
-          900: '#765d1a',
-        },
-        // UAE Gold Accent Palette
-        gold: {
-          DEFAULT: '#d4af37',
-          50: '#fcf9ed',
-          100: '#f9f3db',
-          200: '#f3e7b7',
-          300: '#eddb93',
-          400: '#e7cf6f',
-          500: '#d4af37',
-          600: '#c9a42f',
-          700: '#be9927',
-          800: '#b38e1f',
-          900: '#a88317',
-        },
-        // Secondary colors
-        secondary: {
-          DEFAULT: '#d4af37',
-          dark: '#c9a42f',
-          light: '#e0c04a',
-        },
+       colors: {
+         // UAE Government Premium Color Palette
+         'uae-blue': {
+           DEFAULT: '#0b3c5d',
+           light: '#1a5a7a',
+           dark: '#072a3a',
+         },
+         'uae-gold': {
+           DEFAULT: '#d4af37',
+           light: '#e7cf6f',
+           dark: '#c9a42f',
+         },
+         primary: {
+           DEFAULT: '#0b3c5d',
+           50: '#e6f0f5',
+           100: '#cce0eb',
+           200: '#99c1d7',
+           300: '#66a2c3',
+           400: '#3383af',
+           500: '#0b3c5d',
+           600: '#09364a',
+           700: '#072a3a',
+           800: '#051e2a',
+           900: '#03121a',
+         },
+         // Desert Sand Palette
+         sand: {
+           DEFAULT: '#c9b99a',
+           50: '#faf8f4',
+           100: '#f5f0e8',
+           200: '#ebe0d1',
+           300: '#e0d0ba',
+           400: '#d5c0a3',
+           500: '#c9b99a',
+           600: '#b5a27a',
+           700: '#a08b5a',
+           800: '#8b743a',
+           900: '#765d1a',
+         },
+         // UAE Gold Accent Palette
+         gold: {
+           DEFAULT: '#d4af37',
+           50: '#fcf9ed',
+           100: '#f9f3db',
+           200: '#f3e7b7',
+           300: '#eddb93',
+           400: '#e7cf6f',
+           500: '#d4af37',
+           600: '#c9a42f',
+           700: '#be9927',
+           800: '#b38e1f',
+           900: '#a88317',
+         },
+         // Secondary colors
+         secondary: {
+           DEFAULT: '#d4af37',
+           dark: '#c9a42f',
+           light: '#e0c04a',
+         },
         // Brand colors
         brand: {
           light: '#faf8f4',
@@ -86,18 +96,19 @@ module.exports = {
           sand: 'rgba(250, 248, 244, 0.9)',
         },
       },
-      backgroundImage: {
-        // Desert sand gradients
-        'sand-gradient': 'linear-gradient(135deg, #faf8f4 0%, #f5f0e8 50%, #ebe0d1 100%)',
-        'sand-gradient-radial': 'radial-gradient(ellipse at center, #f5f0e8 0%, #e0d0ba 100%)',
-        // Gold accent gradients
-        'gold-gradient': 'linear-gradient(135deg, #d4af37 0%, #e7cf6f 50%, #d4af37 100%)',
-        'gold-gradient-shine': 'linear-gradient(90deg, #d4af37 0%, #f9f3db 50%, #d4af37 100%)',
-        'gold-gradient-subtle': 'linear-gradient(180deg, rgba(212, 175, 55, 0.1) 0%, rgba(212, 175, 55, 0.05) 100%)',
-        // Premium UAE government gradients
-        'uae-hero': 'linear-gradient(135deg, #0b3c5d 0%, #09364a 50%, #072a3a 100%)',
-        'uae-premium': 'linear-gradient(135deg, #faf8f4 0%, #f5f0e8 50%, #e6f0f5 100%)',
-      },
+       backgroundImage: {
+         // Desert sand gradients
+         'sand-gradient': 'linear-gradient(135deg, #faf8f4 0%, #f5f0e8 50%, #ebe0d1 100%)',
+         'sand-gradient-radial': 'radial-gradient(ellipse at center, #f5f0e8 0%, #e0d0ba 100%)',
+         // Gold accent gradients
+         'gold-gradient': 'linear-gradient(135deg, #d4af37 0%, #e7cf6f 50%, #d4af37 100%)',
+         'gold-gradient-shine': 'linear-gradient(90deg, #d4af37 0%, #f9f3db 50%, #d4af37 100%)',
+         'gold-gradient-subtle': 'linear-gradient(180deg, rgba(212, 175, 55, 0.1) 0%, rgba(212, 175, 55, 0.05) 100%)',
+         // Premium UAE government gradients
+         'uae-hero': 'linear-gradient(135deg, #0b3c5d 0%, #09364a 50%, #072a3a 100%)',
+         'uae-premium': 'linear-gradient(135deg, #faf8f4 0%, #f5f0e8 50%, #e6f0f5 100%)',
+         'uae-gradient': 'linear-gradient(135deg, #0b3c5d 0%, #d4af37 100%)',
+       },
       lineHeight: {
         'tight': '1.2',
         'snug': '1.35',
@@ -123,15 +134,16 @@ module.exports = {
         '800': '800ms',
         '1000': '1000ms',
       },
-      boxShadow: {
-        'soft': '0 4px 20px rgba(0, 0, 0, 0.06)',
-        'soft-lg': '0 12px 40px rgba(0, 0, 0, 0.1)',
-        'glow-primary': '0 4px 14px rgba(11, 60, 93, 0.25)',
-        'glow-secondary': '0 4px 14px rgba(212, 175, 55, 0.25)',
-        'glow-gold': '0 4px 20px rgba(212, 175, 55, 0.3)',
-        'glass': '0 8px 32px rgba(0, 0, 0, 0.08)',
-        'glass-lg': '0 16px 48px rgba(0, 0, 0, 0.12)',
-      },
+       boxShadow: {
+         'soft': '0 4px 20px rgba(0, 0, 0, 0.06)',
+         'soft-lg': '0 12px 40px rgba(0, 0, 0, 0.1)',
+         'glow-primary': '0 4px 14px rgba(11, 60, 93, 0.25)',
+         'glow-secondary': '0 4px 14px rgba(212, 175, 55, 0.25)',
+         'glow-gold': '0 4px 20px rgba(212, 175, 55, 0.3)',
+         'glow-uae': '0 4px 20px rgba(11, 60, 93, 0.25)',
+         'glass': '0 8px 32px rgba(0, 0, 0, 0.08)',
+         'glass-lg': '0 16px 48px rgba(0, 0, 0, 0.12)',
+       },
       backdropBlur: {
         'xs': '2px',
       },

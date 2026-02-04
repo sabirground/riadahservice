@@ -27,54 +27,29 @@ export default function Home() {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">
             {/* Left Content */}
             <motion.div
-              initial={{ opacity: 0, x: -50 }}
+              initial={{ opacity: 0, x: -20 }}
               animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+              transition={{ duration: 0.5 }}
             >
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.2, duration: 0.6 }}
-                className="inline-flex items-center gap-2 px-4 py-2 bg-gold-100 text-gold-800 rounded-full text-sm font-medium mb-6"
-              >
-                <span className="w-2 h-2 bg-gold-500 rounded-full animate-pulse" />
+              <div className="inline-flex items-center gap-2 px-4 py-2 bg-gold-100 text-gold-800 rounded-full text-sm font-medium mb-6">
+                <span className="w-2 h-2 bg-gold-500 rounded-full" />
                 Trusted UAE Business Partner
-              </motion.div>
+              </div>
 
-              <motion.h1
-                initial={{ opacity: 0, y: 30 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.3, duration: 0.7 }}
-                className="text-display-xl text-slate-900 mb-6"
-              >
+              <h1 className="text-display-xl text-slate-900 mb-6">
                 Professional Business Services in{" "}
                 <span className="text-gradient-gold">UAE</span>
-              </motion.h1>
+              </h1>
 
-              <motion.p
-                initial={{ opacity: 0, y: 30 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.4, duration: 0.7 }}
-                className="text-body-lg text-slate-600 mb-8 max-w-xl leading-relaxed"
-              >
+              <p className="text-body-lg text-slate-600 mb-8 max-w-xl leading-relaxed">
                 We provide reliable, affordable, and professional services
                 tailored for businesses and individuals across the UAE. Quality,
                 trust, and timely delivery — guaranteed.
-              </motion.p>
+              </p>
 
-              <motion.div
-                initial={{ opacity: 0, y: 30 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.5, duration: 0.7 }}
-                className="flex flex-wrap gap-4"
-              >
+              <div className="flex flex-wrap gap-4">
                 <Link href="/get-quote">
-                  <motion.span
-                    className="inline-flex items-center gap-2 px-8 py-4 text-base font-semibold text-white bg-gradient-to-r from-primary to-primary-dark rounded-xl shadow-glow-primary"
-                    whileHover={{ scale: 1.02, y: -2 }}
-                    whileTap={{ scale: 0.98 }}
-                    transition={{ duration: 0.2 }}
-                  >
+                  <span className="inline-flex items-center gap-2 px-8 py-4 text-base font-semibold text-white bg-gradient-to-r from-primary to-primary-dark rounded-xl shadow-glow-primary hover:scale-105 transition-transform duration-200">
                     Get Free Quote
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -90,27 +65,18 @@ export default function Home() {
                         d="M17 8l4 4m0 0l-4 4m4-4H3"
                       />
                     </svg>
-                  </motion.span>
+                  </span>
                 </Link>
 
                 <Link href="/services">
-                  <motion.span
-                    className="inline-flex items-center gap-2 px-8 py-4 text-base font-semibold text-primary bg-white border-2 border-sand-300 rounded-xl hover:border-gold-400 hover:bg-sand-50 transition-all duration-300"
-                    whileHover={{ scale: 1.02, y: -2 }}
-                    whileTap={{ scale: 0.98 }}
-                  >
+                  <span className="inline-flex items-center gap-2 px-8 py-4 text-base font-semibold text-primary bg-white border-2 border-sand-300 rounded-xl hover:border-gold-400 hover:bg-sand-50 transition-all duration-200">
                     Our Services
-                  </motion.span>
+                  </span>
                 </Link>
-              </motion.div>
+              </div>
 
               {/* Trust Indicators */}
-              <motion.div
-                initial={{ opacity: 0, y: 30 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.6, duration: 0.7 }}
-                className="flex items-center gap-8 mt-12 pt-8 border-t border-sand-200"
-              >
+              <div className="flex items-center gap-8 mt-12 pt-8 border-t border-sand-200">
                 <div className="text-center">
                   <div className="text-2xl font-bold text-slate-900">10+</div>
                   <div className="text-sm text-slate-500">Years Experience</div>
@@ -125,23 +91,19 @@ export default function Home() {
                   <div className="text-2xl font-bold text-slate-900">100%</div>
                   <div className="text-sm text-slate-500">Satisfaction</div>
                 </div>
-              </motion.div>
+              </div>
             </motion.div>
 
             {/* Right Visual */}
             <motion.div
-              initial={{ opacity: 0, x: 50 }}
+              initial={{ opacity: 0, x: 20 }}
               animate={{ opacity: 1, x: 0 }}
-              transition={{ delay: 0.3, duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+              transition={{ delay: 0.2, duration: 0.5 }}
               className="relative"
             >
               <div className="relative">
                 {/* Main Card */}
-                <motion.div
-                  className="glass-card p-8 relative z-10"
-                  whileHover={{ y: -5 }}
-                  transition={{ duration: 0.3 }}
-                >
+                <div className="glass-card p-8 relative z-10 hover:y-[-2px] transition-transform duration-200">
                   <h3 className="text-display-sm text-slate-900 mb-6 gold-border pb-4">
                     Why Choose Us?
                   </h3>
@@ -177,7 +139,7 @@ export default function Home() {
                       </motion.li>
                     ))}
                   </ul>
-                </motion.div>
+                </div>
 
                 {/* Decorative Elements */}
                 <div className="absolute -top-6 -right-6 w-24 h-24 bg-gold-400/30 rounded-full blur-2xl" />

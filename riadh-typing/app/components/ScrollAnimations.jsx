@@ -9,8 +9,8 @@ if (typeof window !== "undefined") {
   gsap.registerPlugin(ScrollTrigger);
 }
 
-// Hook for scroll-triggered fade in animations
-export function useScrollFadeIn(direction = "up", delay = 0, duration = 0.8) {
+// Hook for simple scroll-triggered fade in animations (reduced motion)
+export function useScrollFadeIn(direction = "up", delay = 0, duration = 0.5) {
   const ref = useRef(null);
 
   useEffect(() => {
@@ -21,15 +21,15 @@ export function useScrollFadeIn(direction = "up", delay = 0, duration = 0.8) {
     const getInitialPosition = () => {
       switch (direction) {
         case "up":
-          return { y: 50, opacity: 0 };
+          return { y: 20, opacity: 0 };
         case "down":
-          return { y: -50, opacity: 0 };
+          return { y: -20, opacity: 0 };
         case "left":
-          return { x: 50, opacity: 0 };
+          return { x: 20, opacity: 0 };
         case "right":
-          return { x: -50, opacity: 0 };
+          return { x: -20, opacity: 0 };
         default:
-          return { y: 50, opacity: 0 };
+          return { y: 20, opacity: 0 };
       }
     };
 
@@ -41,7 +41,7 @@ export function useScrollFadeIn(direction = "up", delay = 0, duration = 0.8) {
       opacity: 1,
       duration,
       delay,
-      ease: "power3.out",
+      ease: "power2.out",
       scrollTrigger: {
         trigger: element,
         start: "top 85%",
@@ -63,8 +63,8 @@ export function useScrollFadeIn(direction = "up", delay = 0, duration = 0.8) {
   return ref;
 }
 
-// Hook for staggered children animations
-export function useStaggerChildren(staggerDelay = 0.1) {
+// Hook for simple staggered children animations (reduced motion)
+export function useStaggerChildren(staggerDelay = 0.08) {
   const containerRef = useRef(null);
 
   useEffect(() => {
@@ -73,14 +73,14 @@ export function useStaggerChildren(staggerDelay = 0.1) {
     const container = containerRef.current;
     const children = container.children;
 
-    gsap.set(children, { y: 40, opacity: 0 });
+    gsap.set(children, { y: 15, opacity: 0 });
 
     const animation = gsap.to(children, {
       y: 0,
       opacity: 1,
-      duration: 0.6,
+      duration: 0.4,
       stagger: staggerDelay,
-      ease: "power3.out",
+      ease: "power2.out",
       scrollTrigger: {
         trigger: container,
         start: "top 80%",
@@ -97,113 +97,6 @@ export function useStaggerChildren(staggerDelay = 0.1) {
       });
     };
   }, [staggerDelay]);
-
-  return containerRef;
-}
-
-// Hook for parallax effect
-export function useParallax(speed = 0.5) {
-  const ref = useRef(null);
-
-  useEffect(() => {
-    if (!ref.current) return;
-
-    const element = ref.current;
-
-    const animation = gsap.to(element, {
-      y: () => window.innerHeight * speed * 0.5,
-      ease: "none",
-      scrollTrigger: {
-        trigger: element,
-        start: "top bottom",
-        end: "bottom top",
-        scrub: true,
-      },
-    });
-
-    return () => {
-      animation.kill();
-      ScrollTrigger.getAll().forEach((trigger) => {
-        if (trigger.vars.trigger === element) {
-          trigger.kill();
-        }
-      });
-    };
-  }, [speed]);
-
-  return ref;
-}
-
-// Hook for scale on scroll
-export function useScrollScale() {
-  const ref = useRef(null);
-
-  useEffect(() => {
-    if (!ref.current) return;
-
-    const element = ref.current;
-
-    gsap.set(element, { scale: 0.9, opacity: 0 });
-
-    const animation = gsap.to(element, {
-      scale: 1,
-      opacity: 1,
-      duration: 0.8,
-      ease: "power3.out",
-      scrollTrigger: {
-        trigger: element,
-        start: "top 85%",
-        toggleActions: "play none none reverse",
-      },
-    });
-
-    return () => {
-      animation.kill();
-      ScrollTrigger.getAll().forEach((trigger) => {
-        if (trigger.vars.trigger === element) {
-          trigger.kill();
-        }
-      });
-    };
-  }, []);
-
-  return ref;
-}
-
-// Hook for horizontal scroll reveal
-export function useHorizontalScroll() {
-  const containerRef = useRef(null);
-
-  useEffect(() => {
-    if (!containerRef.current) return;
-
-    const container = containerRef.current;
-    const children = container.children;
-
-    gsap.set(children, { x: 100, opacity: 0 });
-
-    const animation = gsap.to(children, {
-      x: 0,
-      opacity: 1,
-      duration: 0.7,
-      stagger: 0.15,
-      ease: "power3.out",
-      scrollTrigger: {
-        trigger: container,
-        start: "top 80%",
-        toggleActions: "play none none reverse",
-      },
-    });
-
-    return () => {
-      animation.kill();
-      ScrollTrigger.getAll().forEach((trigger) => {
-        if (trigger.vars.trigger === container) {
-          trigger.kill();
-        }
-      });
-    };
-  }, []);
 
   return containerRef;
 }

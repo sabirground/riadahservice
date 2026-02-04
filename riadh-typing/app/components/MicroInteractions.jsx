@@ -3,59 +3,14 @@
 import { motion } from "framer-motion";
 import { useState } from "react";
 
-// Magnetic button effect
-export function MagneticButton({ children, className = "", strength = 30 }) {
-  const [position, setPosition] = useState({ x: 0, y: 0 });
-
-  const handleMouseMove = (e) => {
-    const rect = e.currentTarget.getBoundingClientRect();
-    const centerX = rect.left + rect.width / 2;
-    const centerY = rect.top + rect.height / 2;
-    const x = ((e.clientX - centerX) / rect.width) * strength;
-    const y = ((e.clientY - centerY) / rect.height) * strength;
-    setPosition({ x, y });
-  };
-
-  const handleMouseLeave = () => {
-    setPosition({ x: 0, y: 0 });
-  };
-
-  return (
-    <motion.div
-      className={className}
-      onMouseMove={handleMouseMove}
-      onMouseLeave={handleMouseLeave}
-      animate={{ x: position.x, y: position.y }}
-      transition={{ type: "spring", stiffness: 350, damping: 15 }}
-    >
-      {children}
-    </motion.div>
-  );
-}
-
-// Hover scale with spring
-export function HoverScale({ children, className = "", scale = 1.05 }) {
+// Simple hover scale (reduced motion)
+export function HoverScale({ children, className = "", scale = 1.02 }) {
   return (
     <motion.div
       className={className}
       whileHover={{ scale }}
       whileTap={{ scale: 0.98 }}
-      transition={{ type: "spring", stiffness: 400, damping: 17 }}
-    >
-      {children}
-    </motion.div>
-  );
-}
-
-// Glow effect on hover
-export function GlowHover({ children, className = "", glowColor = "rgba(212, 175, 55, 0.4)" }) {
-  return (
-    <motion.div
-      className={className}
-      whileHover={{
-        boxShadow: `0 0 30px ${glowColor}`,
-      }}
-      transition={{ duration: 0.3 }}
+      transition={{ duration: 0.15 }}
     >
       {children}
     </motion.div>
@@ -131,41 +86,12 @@ export function AnimatedUnderline({ children, className = "" }) {
   );
 }
 
-// Card with 3D tilt effect
+// Card with simple hover effect (reduced motion)
 export function TiltCard({ children, className = "" }) {
-  const [rotateX, setRotateX] = useState(0);
-  const [rotateY, setRotateY] = useState(0);
-
-  const handleMouseMove = (e) => {
-    const rect = e.currentTarget.getBoundingClientRect();
-    const centerX = rect.left + rect.width / 2;
-    const centerY = rect.top + rect.height / 2;
-    const mouseX = e.clientX - centerX;
-    const mouseY = e.clientY - centerY;
-    
-    setRotateX((-mouseY / (rect.height / 2)) * 10);
-    setRotateY((mouseX / (rect.width / 2)) * 10);
-  };
-
-  const handleMouseLeave = () => {
-    setRotateX(0);
-    setRotateY(0);
-  };
-
   return (
     <motion.div
       className={className}
-      onMouseMove={handleMouseMove}
-      onMouseLeave={handleMouseLeave}
-      style={{
-        perspective: 1000,
-        transformStyle: "preserve-3d",
-      }}
-      animate={{
-        rotateX,
-        rotateY,
-      }}
-      transition={{ type: "spring", stiffness: 300, damping: 30 }}
+      whileHover={{ y: -4, transition: { duration: 0.2 } }}
     >
       {children}
     </motion.div>

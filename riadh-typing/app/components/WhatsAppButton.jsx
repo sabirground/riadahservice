@@ -38,7 +38,7 @@ export default function WhatsAppButton() {
           whileHover={{ scale: 1.1, y: -5 }}
           whileTap={{ scale: 0.95 }}
           onClick={handleClick}
-          className="fixed bottom-8 right-8 z-50 flex items-center gap-3 bg-green-500 hover:bg-green-600 text-white px-6 py-4 rounded-full shadow-2xl transition-all duration-300"
+          className="fixed bottom-8 right-8 z-50 flex items-center gap-2 md:gap-3 bg-green-500 hover:bg-green-600 text-white px-4 py-3 md:px-6 md:py-4 rounded-full shadow-2xl transition-all duration-300"
           aria-label="Contact us on WhatsApp"
         >
           {/* WhatsApp Icon */}
