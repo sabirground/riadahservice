@@ -28,6 +28,11 @@ export const metadata = {
     locale: "en_US",
     alternateLocale: ["ar_AE"],
   },
+  icons: {
+    icon: "/Images/logo.png-removebg-preview.png",
+    shortcut: "/Images/logo.png-removebg-preview.png",
+    apple: "/Images/logo.png-removebg-preview.png",
+  },
 };
 
 export default function RootLayout({ children }) {
@@ -46,6 +51,10 @@ export default function RootLayout({ children }) {
           name="viewport"
           content="width=device-width, initial-scale=1, maximum-scale=5"
         />
+        {/* Favicon */}
+        <link rel="icon" href="/Images/logo.png-removebg-preview.png" type="image/png" />
+        <link rel="shortcut icon" href="/Images/logo.png-removebg-preview.png" type="image/png" />
+        <link rel="apple-touch-icon" href="/Images/logo.png-removebg-preview.png" type="image/png" />
       </head>
       <body className="font-body antialiased bg-sand-50">
         <Navbar />

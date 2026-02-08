@@ -70,6 +70,18 @@ He has 2.5+ years of experience in typing and business-related services.
 He specializes in company registration, business formation, and government approvals.`,
   },
   {
+    name: "Jazeel",
+    designation: "Customer Consultant – Head Office",
+    image: "/team/M Jazeel.jpeg",
+    phone: "+971586912158",
+    email: "riadahtyping@gmail.com",
+    description: `Jazeel is a Customer Consultant at the Head Office of Riadah Typing Office.
+He has 1+ year of experience* in customer support and business services.
+He specializes in company setup, trade licenses, .
+He assists clients with clear guidance through all document and registration processes.
+He ensures a smooth and professional customer experience.`,
+  },
+  {
     name: "Abdul Rashid",
     designation: "Office Administrator – Head Office",
     image: "/team/RAshidteam.jpeg",
@@ -164,6 +176,17 @@ function TeamModal({ member, onClose }) {
 export default function OurTeamPage() {
   const [selectedMember, setSelectedMember] = useState(null);
 
+  // Separate leadership from other team members
+  const leadership = teamMembers.filter(member => 
+    member.designation.includes("Managing Partner") || 
+    member.designation.includes("Operations Director")
+  );
+  
+  const employees = teamMembers.filter(member => 
+    !member.designation.includes("Managing Partner") && 
+    !member.designation.includes("Operations Director")
+  );
+
   return (
     <>
       {/* Hero Section (UNCHANGED) */}
@@ -179,20 +202,72 @@ export default function OurTeamPage() {
         </div>
       </section>
 
-      {/* TEAM GRID (OWNERS + EMPLOYEES COMBINED) */}
+      {/* LEADERSHIP SECTION */}
       <section className="section bg-white">
         <div className="container">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl font-bold text-slate-900 mb-4">Leadership Team</h2>
+            <GoldAccentLine className="w-20 mx-auto" />
+          </div>
+          
           <StaggerContainer
-            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8"
+            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
             staggerDelay={0.1}
           >
-            {teamMembers.map((person, index) => (
+            {leadership.map((person, index) => (
               <StaggerItem key={index}>
                 <TiltCard>
                   <HoverScale scale={1.03}>
                     <div
                       onClick={() => setSelectedMember(person)}
-                      className="card text-center p-6 group hover:border-gold-300 transition-colors duration-300 cursor-pointer"
+                      className="card text-center p-8 group hover:border-gold-300 transition-colors duration-300 cursor-pointer bg-gradient-to-br from-sand-50 to-white"
+                    >
+                      <div className="w-36 h-36 mx-auto mb-6 rounded-full overflow-hidden border-4 border-gold-300 group-hover:border-gold-400 transition-colors duration-300 relative shadow-lg">
+                        <Image
+                          src={person.image}
+                          alt={person.name}
+                          fill
+                          style={{ objectFit: 'cover', objectPosition: 'center 20%' }}
+                          sizes="144px"
+                        />
+                      </div>
+                      <h3 className="font-bold text-slate-900 text-xl">
+                        {person.name}
+                      </h3>
+                      <p className="text-sm text-gold-600 mt-2 font-semibold">
+                        {person.designation}
+                      </p>
+                      <p className="text-xs text-slate-500 mt-3">
+                        Click to view profile
+                      </p>
+                    </div>
+                  </HoverScale>
+                </TiltCard>
+              </StaggerItem>
+            ))}
+          </StaggerContainer>
+        </div>
+      </section>
+
+      {/* TEAM MEMBERS SECTION */}
+      <section className="section bg-sand-50">
+        <div className="container">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl font-bold text-slate-900 mb-4">Our Team</h2>
+            <GoldAccentLine className="w-20 mx-auto" />
+          </div>
+          
+          <StaggerContainer
+            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8"
+            staggerDelay={0.1}
+          >
+            {employees.map((person, index) => (
+              <StaggerItem key={index}>
+                <TiltCard>
+                  <HoverScale scale={1.03}>
+                    <div
+                      onClick={() => setSelectedMember(person)}
+                      className="card text-center p-6 group hover:border-gold-300 transition-colors duration-300 cursor-pointer bg-white"
                     >
                       <div className="w-32 h-32 mx-auto mb-5 rounded-full overflow-hidden border-4 border-sand-100 group-hover:border-gold-200 transition-colors duration-300 relative">
                         <Image
