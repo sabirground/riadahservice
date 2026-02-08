@@ -247,24 +247,31 @@ const documents = {
   ],
 
   "Property Insurance": [
-    "Property documents",
+    "Property or asset documents",
+    "Emirates ID",
     "Passport copy"
   ],
 
   "Health Insurance": [
     "Passport copy",
-    "Visa copy"
+    "Emirates ID & residency visa",
+    "Salary certificate (if applicable)",
+    "Dependent health insurance card (if applicable)",
+    "Photograph (if required)"
   ],
 
   "Visa Medical Test": [
     "Passport copy",
-    "Visa application form"
+    "Residency visa",
+    "Entry permit or change of status (if applicable)"
   ],
 
   "Emirates ID Services": [
-    "Passport copy",
-    "Visa copy",
-    "Photo"
+    "Passport & residency visa",
+    "Emirates ID copy",
+    "Personal photograph",
+    "Unified number",
+    "Recent salary certificate",
   ]
 };
 

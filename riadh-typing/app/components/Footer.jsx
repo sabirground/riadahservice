@@ -182,7 +182,7 @@ export default function Footer() {
                     className="text-sm text-slate-400 hover:text-gold-400 transition-colors duration-300 flex items-center gap-3"
                   >
                     <span className="text-gold-500">📱</span>
-                    <span>+971 05 800 3934</span>
+                    <span>+971 5028003934</span>
                   </a>
                 </li>
                 <li>

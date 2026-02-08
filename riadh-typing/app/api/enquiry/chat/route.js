@@ -10,8 +10,8 @@ const BUSINESS_DATA = {
     "Riadh Typing & Typing Services is a premier service provider in the United Arab Emirates, specializing in comprehensive document processing, visa services, and business setup solutions. With years of expertise and a commitment to excellence, we streamline complex bureaucratic processes for individuals and businesses across the UAE.",
 
   contact: {
-    phone: "+971XXXXXXXXX",
-    whatsapp: "+971XXXXXXXXX"
+    phone: "+971528003934",
+    whatsapp: "+971528003934"
   },
 
   services: [
@@ -334,21 +334,23 @@ const BUSINESS_DATA = {
     =============================== */
 
 const SYSTEM_PROMPT = `
-You are a friendly and professional customer service assistant for Riadh Typing & Typing Services (UAE). Your goal is to provide helpful, accurate information about our services in a warm and approachable manner.
+You are a friendly and professional customer service assistant for Riadh Typing & Typing Services (UAE). Your goal is to provide helpful, accurate information about our services in a warm and approachable manner, just like talking to a human customer service representative.
 
 STRICT RULES:
 - Answer ONLY using the business information provided.
 - Do NOT add new services, documents, processing times, or advice.
 - Rephrasing is allowed but meaning must stay the same.
 - Reply in the SAME language as the user.
-- Share contact details ONLY if the user asks for help, contact, call, WhatsApp, or support.
+- Share contact details (WhatsApp: +971528003934) if the user asks for help, contact, call, WhatsApp, support, or any specific service details.
+- If the user asks about a specific service, provide details about that service and always include the contact number for further assistance.
 - If the question is unrelated, reply politely that you can help only with our document processing, visa services, and business setup solutions.
-- If information is missing, say: "Please contact our team for further assistance."
+- If information is missing, say: "Please contact our team for further assistance. You can reach us on WhatsApp at +971528003934."
 - Keep responses concise, clear, and user-friendly.
 - Use positive language and maintain a helpful tone.
 - Start responses with friendly emojis to make them more approachable.
 - Keep the conversation flowing naturally, like talking to a friend.
 - Use simple, easy-to-understand language.
+- Be proactive in offering assistance and provide clear next steps.
 `;
 
 /* ===============================
@@ -360,32 +362,32 @@ function getSimpleResponse(message) {
 
   // Greeting responses
   if (lowerMsg.includes("hello") || lowerMsg.includes("hi") || lowerMsg.includes("hey")) {
-    return "👋 Hello! I'm here to help you with Riadh Typing & Typing Services. How can I assist you today? Whether it's visa services, business setup, or document processing, I'm here to help!";
+    return "👋 Hello! I'm here to help you with Riadh Typing & Typing Services. How can I assist you today? Whether it's visa services, business setup, or document processing, feel free to ask!";
   }
 
   if (lowerMsg.includes("thank")) {
     return "😊 You're very welcome! If you have any more questions, feel free to ask. I'm here to help!";
   }
 
-  // Service related queries
+  // Service related queries with contact information
   if (lowerMsg.includes("service") || lowerMsg.includes("services")) {
-    return "🌟 We offer a wide range of services including Visa Services, Business Setup, Trade Mark Registration, Domestic Visa Services, Visit/Tourist Visa, Accounting & Book Keeping, Translation & Attestation, Notary Public, Vehicles & Drivers services, and other miscellaneous services. Which service are you interested in exploring?";
+    return "🌟 We offer a wide range of services including Visa Services, Business Setup, Trade Mark Registration, Domestic Visa Services, Visit/Tourist Visa, Accounting & Book Keeping, Translation & Attestation, Notary Public, Vehicles & Drivers services, and other miscellaneous services. Which service are you interested in exploring? You can contact us on WhatsApp at +971528003934 for more details!";
   }
 
   if (lowerMsg.includes("visa")) {
-    return "📋 We provide comprehensive visa services including New Residency Visa, Renew Residency Visa, Cancel Residency Visa, Golden Visa Nomination, Golden Visa Full Process, Transfer Visa To New Passport, Data Modification, New Born Visa, and Dependents On Hold. What specific visa service do you need help with?";
+    return "📋 We provide comprehensive visa services including New Residency Visa, Renew Residency Visa, Cancel Residency Visa, Golden Visa Nomination, Golden Visa Full Process, Transfer Visa To New Passport, Data Modification, New Born Visa, and Dependents On Hold. What specific visa service do you need help with? You can reach us on WhatsApp at +971528003934 for assistance!";
   }
 
   if (lowerMsg.includes("business") || lowerMsg.includes("company") || lowerMsg.includes("trade license")) {
-    return "💼 Our business setup services include New Business Consultancy, Renew Trade License, Amend Trade License, and Cancel Trade License. We can assist with all aspects of business establishment in the UAE. Would you like to know more about any specific service?";
+    return "💼 Our business setup services include New Business Consultancy, Renew Trade License, Amend Trade License, and Cancel Trade License. We can assist with all aspects of business establishment in the UAE. Would you like to know more about any specific service? Contact us on WhatsApp at +971528003934!";
   }
 
   if (lowerMsg.includes("document") || lowerMsg.includes("required")) {
-    return "📄 Document requirements vary by service type. For example, a New Residency Visa requires passport copy, passport size photo, Emirates ID (if available), entry permit, medical test result, Emirates ID application form, and trade license (for employment visas). Please specify which service you're inquiring about for detailed document requirements!";
+    return "📄 Document requirements vary by service type. For example, a New Residency Visa requires passport copy, passport size photo, Emirates ID (if available), entry permit, medical test result, Emirates ID application form, and trade license (for employment visas). Please specify which service you're inquiring about for detailed document requirements! You can reach us on WhatsApp at +971528003934 for assistance!";
   }
 
   if (lowerMsg.includes("time") || lowerMsg.includes("process") || lowerMsg.includes("how long")) {
-    return "⏰ Processing times vary by service type. For example, a New Residency Visa typically takes 3-5 business days, while a Golden Visa Full Process takes 15-25 business days. Please specify which service you're interested in for exact processing times!";
+    return "⏰ Processing times vary by service type. For example, a New Residency Visa typically takes 3-5 business days, while a Golden Visa Full Process takes 15-25 business days. Please specify which service you're interested in for exact processing times! You can contact us on WhatsApp at +971528003934 for more information!";
   }
 
   // Contact information
@@ -393,13 +395,45 @@ function getSimpleResponse(message) {
     return "📞 You can contact Riadh Typing & Typing Services through our WhatsApp at +971528003934. Our team is ready to assist you with any queries!";
   }
 
-  // Default response
-  return "✨ I'm here to help you with Riadh Typing & Typing Services. We offer visa services, business setup, document processing, and more. Could you please specify which service you're interested in?";
+  // Check for specific service names and provide detailed responses
+  const allServices = [];
+  BUSINESS_DATA.services.forEach(category => {
+    category.items.forEach(item => allServices.push(item.toLowerCase()));
+  });
+
+  for (const service of allServices) {
+    if (lowerMsg.includes(service.toLowerCase())) {
+      // Find service details
+      let found = false;
+      for (const category of BUSINESS_DATA.services) {
+        for (const item of category.items) {
+          if (item.toLowerCase() === service) {
+            const docs = BUSINESS_DATA.documentRequirements[item];
+            const time = BUSINESS_DATA.processingTimes[item];
+            
+            let response = `✨ We provide ${item} service! `;
+            if (docs) {
+              response += `The required documents include: ${docs.join(', ')}. `;
+            }
+            if (time) {
+              response += `Typical processing time is ${time}. `;
+            }
+            response += `For more information or to get started, please contact us on WhatsApp at +971528003934!`;
+            
+            return response;
+          }
+        }
+      }
+    }
+  }
+
+  // Default response with contact information
+  return "✨ I'm here to help you with Riadh Typing & Typing Services. We offer visa services, business setup, document processing, and more. Could you please specify which service you're interested in? You can also contact us directly on WhatsApp at +971528003934!";
 }
 
 /* ===============================
-   3. API HANDLER (VERCEL SAFE)
-   =============================== */
+    3. API HANDLER (VERCEL SAFE)
+    =============================== */
 
 export async function POST(req) {
   try {
@@ -412,13 +446,33 @@ export async function POST(req) {
       );
     }
 
-    // Use only the simple response system to avoid API costs and limits
-    const simpleReply = getSimpleResponse(message);
-    
-    return new Response(
-      JSON.stringify({ reply: simpleReply }),
-      { headers: { "Content-Type": "application/json" } }
-    );
+    // Try to use Google Generative AI for more natural responses
+    try {
+      const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
+      const model = genAI.getGenerativeModel({ model: "gemini-pro" });
+      
+      const prompt = `${SYSTEM_PROMPT}\n\nBusiness Data:\n${JSON.stringify(BUSINESS_DATA)}\n\nUser Query: ${message}\n\nPlease provide a natural, human-like response using only the provided business data.`;
+      
+      const result = await model.generateContent(prompt);
+      const response = await result.response;
+      const text = response.text();
+      
+      // Clean up the response
+      let cleanedText = text.replace(/\*\*/g, '').replace(/```/g, '').trim();
+      
+      return new Response(
+        JSON.stringify({ reply: cleanedText }),
+        { headers: { "Content-Type": "application/json" } }
+      );
+    } catch (aiError) {
+      console.error("Google Generative AI Error:", aiError);
+      // Fallback to simple response system
+      const simpleReply = getSimpleResponse(message);
+      return new Response(
+        JSON.stringify({ reply: simpleReply }),
+        { headers: { "Content-Type": "application/json" } }
+      );
+    }
 
   } catch (error) {
     console.error("Chat API Error:", error);
