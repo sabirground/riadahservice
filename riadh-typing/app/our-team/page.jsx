@@ -70,19 +70,7 @@ He has 2.5+ years of experience in typing and business-related services.
 He specializes in company registration, business formation, and government approvals.`,
   },
   {
-    name: "Jazeel",
-    designation: "Customer Consultant – Head Office",
-    image: "/team/M Jazeel.jpeg",
-    phone: "+971586912158",
-    email: "riadahtyping@gmail.com",
-    description: `Jazeel is a Customer Consultant at the Head Office of Riadah Typing Office.
-He has 1+ year of experience* in customer support and business services.
-He specializes in company setup, trade licenses, .
-He assists clients with clear guidance through all document and registration processes.
-He ensures a smooth and professional customer experience.`,
-  },
-  {
-    name: "Abdul Rashid",
+     name: "Abdul Rashid",
     designation: "Office Administrator – Head Office",
     image: "/team/RAshidteam.jpeg",
     phone: "+971528003934",
@@ -90,6 +78,16 @@ He ensures a smooth and professional customer experience.`,
     description: `Abdul Rashid works as the Office Administrator at Riadah Typing Office – Head Office.
 He has 2+ years of experience in administration, typing, and business support.
 He specializes in company registration, trade licenses, and document processing.`,
+  },
+  {
+    name: "Muhammed Anas",
+    designation: "Accountant – Head Office",
+    image: "/team/M Anas.jpeg",
+    phone: "+971528003934",
+    email: "riadahtyping@gmail.com",
+    description: `Muhammend Anas manages the accounting functions of Riadah Typing Office – Head Office.
+He has 7+ years of experience in accounting, finance, and business documentation.
+He oversees daily financial transactions and ensures compliance.`,
   },
   {
     name: "Anas C.P",
@@ -102,14 +100,16 @@ He has 1+ year of experience in typing and business-related services.
 He specializes in company setup, ticket booking, and travel services.`,
   },
   {
-    name: "Muhammed Anas",
-    designation: "Accountant – Head Office",
-    image: "/team/M Anas.jpeg",
-    phone: "+971528003934",
+    name: "Jazeel",
+    designation: "Customer Consultant – Head Office",
+    image: "/team/M Jazeel.jpeg",
+    phone: "+971586912158",
     email: "riadahtyping@gmail.com",
-    description: `Muhammend Anas manages the accounting functions of Riadah Typing Office – Head Office.
-He has 7+ years of experience in accounting, finance, and business documentation.
-He oversees daily financial transactions and ensures compliance.`,
+    description: `Jazeel is a Customer Consultant at the Head Office of Riadah Typing Office.
+He has 1+ year of experience* in customer support and business services.
+He specializes in company setup, trade licenses, .
+He assists clients with clear guidance through all document and registration processes.
+He ensures a smooth and professional customer experience.`,
   },
 ];
 

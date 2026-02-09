@@ -27,7 +27,12 @@ const EnquiryForm = ({ preSelectedServices = [] }) => {
   const [servicesSearchTerm, setServicesSearchTerm] = useState('');
 
   const onSubmit = async (data) => {
-    const token = null; // captcha disabled for now
+    const token = recaptchaRef.current?.getValue();
+    
+    if (!token) {
+      alert("Please complete the reCAPTCHA verification");
+      return;
+    }
 
     // Log form data for debugging
     console.log("Form submission data:", {
@@ -44,7 +49,8 @@ const EnquiryForm = ({ preSelectedServices = [] }) => {
 
     setIsLoading(true);
 
-    try {
+     try {
+      // Send to main enquiry endpoint
       const response = await fetch("/api/enquiry", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -54,6 +60,26 @@ const EnquiryForm = ({ preSelectedServices = [] }) => {
           services: selectedServices 
         }),
       });
+
+      // Also send to leads endpoint for Supabase storage
+      try {
+        // Determine source based on current page
+        const isGetQuotePage = window.location.pathname === "/get-quote";
+        await fetch("/api/enquiry/leads", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            service: selectedServices.join(", "),
+            name: data.name,
+            email: data.email,
+            phone: `${selectedCountry.dialCode} ${data.mobile}`,
+            message: data.message,
+            source: isGetQuotePage ? "get-quote" : "enquiry" // Set source based on page
+          }),
+        });
+      } catch (leadError) {
+        console.error("Lead API error:", leadError);
+      }
 
       const result = await response.json();
 

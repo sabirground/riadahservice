@@ -6,9 +6,35 @@ export async function POST(req) {
     const body = await req.json();
     const { name, email, mobile, countryCode, address, message, services } = body;
 
+    // Validate input formats
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    const mobileRegex = /^\d{7,15}$/;
+    const nameRegex = /^[a-zA-Z\s]{2,50}$/;
+
     if (!name || !email || !mobile || !address || !services) {
       return new Response(
         JSON.stringify({ success: false, message: "Missing required fields" }),
+        { status: 400 }
+      );
+    }
+
+    if (!emailRegex.test(email)) {
+      return new Response(
+        JSON.stringify({ success: false, message: "Invalid email format" }),
+        { status: 400 }
+      );
+    }
+
+    if (!mobileRegex.test(mobile.replace(/\D/g, ''))) {
+      return new Response(
+        JSON.stringify({ success: false, message: "Invalid mobile number format" }),
+        { status: 400 }
+      );
+    }
+
+    if (!nameRegex.test(name)) {
+      return new Response(
+        JSON.stringify({ success: false, message: "Invalid name format" }),
         { status: 400 }
       );
     }

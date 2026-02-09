@@ -57,7 +57,7 @@ export default function Footer() {
   ];
 
   return (
-    <footer className="relative bg-slate-900 text-slate-300 overflow-hidden">
+    <footer id="footer" className="relative bg-slate-900 text-slate-300 overflow-hidden">
       {/* Decorative Top Border */}
       <div className="h-1 bg-gradient-to-r from-gold-500 via-gold-300 to-gold-500" />
 
