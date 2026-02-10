@@ -137,8 +137,10 @@ export default function ChatWidget() {
     <div id="chat-widget">
       {/* Chat Button */}
       <motion.button
-        className="fixed bottom-24 right-6 w-14 h-14 bg-gradient-to-r from-yellow-500 to-yellow-400 text-black rounded-full shadow-lg flex items-center justify-center z-[9999]"
+        className="fixed bottom-24 right-6 w-16 h-16 bg-gradient-to-r from-blue-600 to-blue-700 text-white rounded-full shadow-2xl flex items-center justify-center z-[9999] hover:shadow-blue-500/50 hover:scale-105 transition-all duration-300"
         onClick={() => setIsOpen(!isOpen)}
+        whileHover={{ scale: 1.1 }}
+        whileTap={{ scale: 0.95 }}
       >
         {isOpen ? "✖" : "💬"}
       </motion.button>
@@ -147,49 +149,56 @@ export default function ChatWidget() {
       <AnimatePresence>
         {isOpen && (
           <motion.div
-            className="fixed bottom-32 right-4 w-[95vw] sm:w-[380px] h-[70vh] bg-white rounded-2xl shadow-xl flex flex-col overflow-hidden z-[9999]"
-            initial={{ opacity: 0, scale: 0.95 }}
-            animate={{ opacity: 1, scale: 1 }}
-            exit={{ opacity: 0, scale: 0.95 }}
+            className="fixed bottom-32 right-4 w-[95vw] sm:w-[400px] h-[75vh] bg-white rounded-2xl shadow-2xl flex flex-col overflow-hidden z-[9999] border border-gray-100"
+            initial={{ opacity: 0, scale: 0.95, y: 20 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            exit={{ opacity: 0, scale: 0.95, y: 20 }}
+            transition={{ duration: 0.3, ease: "easeOut" }}
           >
             {/* Header */}
-            <div className="bg-black text-white p-4 flex items-center gap-2">
-              <img
-                src="/logo.png"
-                alt="Riadah"
-                className="w-8 h-8 rounded-full"
-              />
-              <div>
-                <h3 className="font-semibold text-sm">Riadah Support</h3>
-                <p className="text-xs text-gray-300">Dubai Business Desk</p>
+            <div className="bg-gradient-to-r from-blue-600 to-blue-700 text-white p-4 flex items-center justify-between shadow-lg">
+              <div className="flex items-center gap-3">
+                <img
+                  src="/Images/logo.png-removebg-preview.png"
+                  alt="Riadah"
+                  className="w-10 h-10 rounded-full object-cover border-2 border-white/30"
+                />
+                <div>
+                  <h3 className="font-semibold text-base">Riadah Support</h3>
+                  <p className="text-xs text-blue-100">Dubai Business Desk</p>
+                </div>
+              </div>
+              <div className="flex items-center gap-2">
+                <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
+                <span className="text-xs text-blue-100">Online</span>
               </div>
             </div>
 
             {/* Messages */}
-            <div className="flex-1 overflow-y-auto p-4 bg-gray-50">
+            <div className="flex-1 overflow-y-auto p-4 bg-gradient-to-b from-gray-50 to-gray-100">
               {messages.map((msg, i) => (
                 <div
                   key={i}
-                  className={`mb-3 max-w-[80%] ${
+                  className={`mb-4 max-w-[85%] ${
                     msg.role === "user" ? "ml-auto text-right" : "mr-auto"
                   }`}
                 >
                   <div
-                    className={`p-3 rounded-xl text-sm ${
+                    className={`p-4 rounded-2xl text-sm leading-relaxed ${
                       msg.role === "user"
-                        ? "bg-yellow-500 text-black"
-                        : "bg-white border shadow-sm"
+                        ? "bg-gradient-to-r from-blue-600 to-blue-700 text-white shadow-md"
+                        : "bg-white border border-gray-200 shadow-sm"
                     }`}
                   >
                     {msg.content}
 
                     {msg.options && !submitted && (
-                      <div className="mt-2 flex flex-wrap gap-2">
+                      <div className="mt-3 flex flex-wrap gap-2">
                         {msg.options.map((opt, idx) => (
                           <button
                             key={idx}
                             onClick={() => handleOptionClick(opt)}
-                            className="px-3 py-1 text-xs bg-black text-white rounded-full hover:bg-gray-800"
+                            className="px-4 py-2 text-xs bg-gradient-to-r from-blue-600 to-blue-700 text-white rounded-full hover:shadow-md hover:scale-105 transition-all duration-200"
                           >
                             {opt}
                           </button>
@@ -200,27 +209,36 @@ export default function ChatWidget() {
                 </div>
               ))}
               {isTyping && (
-                <div className="text-xs text-gray-500">Bot is typing...</div>
+                <div className="flex items-center gap-2 text-xs text-gray-500">
+                  <div className="flex gap-1">
+                    <div className="w-2 h-2 bg-blue-600 rounded-full animate-bounce [animation-delay:-0.3s]"></div>
+                    <div className="w-2 h-2 bg-blue-600 rounded-full animate-bounce [animation-delay:-0.15s]"></div>
+                    <div className="w-2 h-2 bg-blue-600 rounded-full animate-bounce"></div>
+                  </div>
+                  <span>Bot is typing...</span>
+                </div>
               )}
               <div ref={messagesEndRef} />
             </div>
 
             {/* Input */}
             {!submitted && (
-              <div className="p-3 border-t flex gap-2">
-                <input
-                  value={input}
-                  onChange={(e) => setInput(e.target.value)}
-                  onKeyPress={handleKeyPress}
-                  placeholder="Type here..."
-                  className="flex-1 px-3 py-2 border rounded-lg text-sm focus:outline-none"
-                />
-                <button
-                  onClick={handleSend}
-                  className="px-4 py-2 bg-black text-white rounded-lg text-sm"
-                >
-                  Send
-                </button>
+              <div className="p-4 bg-white border-t border-gray-100">
+                <div className="flex gap-3">
+                  <input
+                    value={input}
+                    onChange={(e) => setInput(e.target.value)}
+                    onKeyPress={handleKeyPress}
+                    placeholder="Type your message..."
+                    className="flex-1 px-4 py-3 border border-gray-200 rounded-full text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+                  />
+                  <button
+                    onClick={handleSend}
+                    className="px-6 py-3 bg-gradient-to-r from-blue-600 to-blue-700 text-white rounded-full text-sm font-medium hover:shadow-md hover:scale-105 transition-all duration-200"
+                  >
+                    Send
+                  </button>
+                </div>
               </div>
             )}
           </motion.div>
