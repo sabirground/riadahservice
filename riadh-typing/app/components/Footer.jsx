@@ -69,7 +69,7 @@ export default function Footer() {
 
       <div className="container relative z-10 py-16">
         <StaggerContainer
-          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10"
+          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12"
           staggerDelay={0.1}
         >
           {/* Company */}
@@ -79,22 +79,22 @@ export default function Footer() {
                 <img
                   src="/Images/ftviewlog-removebg-preview (1).png"
                   alt="Riadah Services"
-                  className="h-12 w-auto brightness-0 invert"
+                  className="h-14 w-auto brightness-0 invert"
                 />
               </Link>
-              <p className="text-sm leading-relaxed text-slate-400 mb-6">
+              <p className="text-sm leading-relaxed text-slate-400 mb-8">
                 Professional business services in the UAE. We deliver reliable,
                 compliant, and high-quality solutions for individuals and
                 businesses.
               </p>
-              <div className="flex items-center gap-3">
+              <div className="flex items-center gap-4">
                 {socialLinks.map((social) => (
                   <motion.a
                     key={social.label}
                     href={social.href}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="w-10 h-10 rounded-full bg-slate-800 flex items-center justify-center text-slate-400 hover:text-gold-400 hover:bg-slate-700 transition-all duration-300"
+                    className="w-11 h-11 rounded-full bg-slate-800 flex items-center justify-center text-slate-400 hover:text-gold-400 hover:bg-slate-700 transition-all duration-300 border border-slate-700 hover:border-gold-400"
                     whileHover={{ scale: 1.1, y: -2 }}
                     whileTap={{ scale: 0.95 }}
                     aria-label={social.label}
@@ -201,7 +201,7 @@ export default function Footer() {
 
         {/* Bottom */}
         <FadeInOnScroll delay={0.3}>
-          <div className="border-t border-slate-800 mt-12 pt-8">
+          <div className="border-t border-slate-800 mt-16 pt-8">
             <div className="flex flex-col md:flex-row items-center justify-between gap-4">
               <p className="text-sm text-slate-500">
                 © {new Date().getFullYear()} Riadah Services. All rights

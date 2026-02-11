@@ -142,7 +142,15 @@ export default function ChatWidget() {
         whileHover={{ scale: 1.1 }}
         whileTap={{ scale: 0.95 }}
       >
-        {isOpen ? "✖" : "💬"}
+        {isOpen ? (
+          "✖"
+        ) : (
+          <img
+            src="/Images/chaticon.jpg"
+            alt="Chat"
+            className="w-10 h-10 rounded-full object-cover"
+          />
+        )}
       </motion.button>
 
       {/* Chat Window */}
@@ -165,7 +173,7 @@ export default function ChatWidget() {
                 />
                 <div>
                   <h3 className="font-semibold text-base">Riadah Support</h3>
-                  <p className="text-xs text-blue-100">Dubai Business Desk</p>
+                  <p className="text-xs text-blue-100">Abu Dhabi Al Ain Business Desk</p>
                 </div>
               </div>
               <div className="flex items-center gap-2">

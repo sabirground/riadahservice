@@ -11,7 +11,7 @@ export async function POST(req) {
     const mobileRegex = /^\d{7,15}$/;
     const nameRegex = /^[a-zA-Z\s]{2,50}$/;
 
-    if (!name || !email || !mobile || !address || !services) {
+    if (!name || !email || !mobile || !services) {
       return new Response(
         JSON.stringify({ success: false, message: "Missing required fields" }),
         { status: 400 }
@@ -198,11 +198,7 @@ export async function POST(req) {
                         <span class="info-label">Email:</span>
                         <span class="info-value">${email}</span>
                     </div>
-                    
-                    <div class="info-section">
-                        <span class="info-label">Address:</span>
-                        <span class="info-value">${address}</span>
-                    </div>
+
                     
                     <div class="info-section">
                         <span class="info-label">Services:</span>
@@ -443,13 +439,31 @@ export async function POST(req) {
     );
   } catch (error) {
     console.error("Enquiry API Error:", error);
-    return new Response(
-      JSON.stringify({ 
-        success: false, 
-        message: "Server error",
-        error: process.env.NODE_ENV === 'development' ? error.message : undefined
-      }),
-      { status: 500 }
-    );
+    const errorResponse = { 
+      success: false, 
+      message: "Server error",
+      error: process.env.NODE_ENV === 'development' ? error.message : undefined
+    };
+    try {
+      return new Response(
+        JSON.stringify(errorResponse),
+        { 
+          status: 500,
+          headers: { 'Content-Type': 'application/json' }
+        }
+      );
+    } catch (stringifyError) {
+      console.error("Error stringifying response:", stringifyError);
+      return new Response(
+        JSON.stringify({ 
+          success: false, 
+          message: "Server error"
+        }),
+        { 
+          status: 500,
+          headers: { 'Content-Type': 'application/json' }
+        }
+      );
+    }
   }
 }

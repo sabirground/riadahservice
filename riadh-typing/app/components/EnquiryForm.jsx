@@ -1,8 +1,7 @@
 "use client";
 
 import { useForm } from "react-hook-form";
-import { useRef, useState } from "react";
-import ReCAPTCHA from "react-google-recaptcha";
+import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { rawServices } from "../data/services.js";
 import serviceDocuments from "@/app/lib/serviceDocuments.js";
@@ -16,7 +15,6 @@ const EnquiryForm = ({ preSelectedServices = [] }) => {
   } = useForm({
     defaultValues: { services: preSelectedServices },
   });
-  const recaptchaRef = useRef();
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [submittedData, setSubmittedData] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
@@ -27,12 +25,6 @@ const EnquiryForm = ({ preSelectedServices = [] }) => {
   const [servicesSearchTerm, setServicesSearchTerm] = useState('');
 
   const onSubmit = async (data) => {
-    const token = recaptchaRef.current?.getValue();
-    
-    if (!token) {
-      alert("Please complete the reCAPTCHA verification");
-      return;
-    }
 
     // Log form data for debugging
     console.log("Form submission data:", {
@@ -81,14 +73,20 @@ const EnquiryForm = ({ preSelectedServices = [] }) => {
         console.error("Lead API error:", leadError);
       }
 
-      const result = await response.json();
+      let result;
+      try {
+        result = await response.json();
+      } catch (parseError) {
+        console.error("Error parsing response:", parseError);
+        result = { message: "Invalid response from server" };
+      }
 
       if (response.ok && result.success) {
         setIsSubmitted(true);
         setSubmittedData(data);
       } else {
         console.error("Enquiry submission failed:", result);
-        alert(`Failed to submit enquiry: ${result.message || "Please try again"}`);
+        alert(`Failed to submit enquiry: ${result?.message || "Please try again"}`);
       }
     } catch (error) {
       console.error("Enquiry submission error:", error);

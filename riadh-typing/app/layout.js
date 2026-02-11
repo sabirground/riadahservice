@@ -11,6 +11,11 @@ export const metadata = {
   keywords: [
     "UAE business services",
     "typing services",
+    "Riadah typing office",
+    "Riadah UAE",
+    "Riadah typing services",
+    "Best Visa Services in UAE",
+    "Quick Visa in UAE",
     "PRO services",
     "business setup UAE",
     "document clearing",

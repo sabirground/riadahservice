@@ -9,6 +9,7 @@ export default function AdminDashboard() {
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState("");
   const [filterType, setFilterType] = useState("all");
+  const [dateFilter, setDateFilter] = useState("all");
   const [exporting, setExporting] = useState(false);
 
   // 🔐 Check login
@@ -51,7 +52,19 @@ export default function AdminDashboard() {
       (filterType === "enquiry" && (!lead.source || lead.source === "enquiry")) ||
       (filterType === "get-quote" && lead.source === "get-quote");
 
-    return matchesSearch && matchesFilter;
+    const leadDate = new Date(lead.created_at);
+    const now = new Date();
+    const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+    const weekAgo = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000);
+    const monthAgo = new Date(now.getFullYear(), now.getMonth() - 1, now.getDate());
+
+    const matchesDate =
+      dateFilter === "all" ||
+      (dateFilter === "today" && leadDate >= today) ||
+      (dateFilter === "week" && leadDate >= weekAgo && leadDate < today) ||
+      (dateFilter === "month" && leadDate >= monthAgo && leadDate < today);
+
+    return matchesSearch && matchesFilter && matchesDate;
   });
 
   // 📥 Export to Excel
@@ -92,11 +105,11 @@ export default function AdminDashboard() {
   };
 
   // 📊 Stats
-  const stats = {
-    total: leads.length,
-    chat: leads.filter(lead => lead.source === "chat").length,
-    enquiry: leads.filter(lead => !lead.source || lead.source === "enquiry").length,
-    getQuote: leads.filter(lead => lead.source === "get-quote").length
+  const filteredStats = {
+    total: filteredLeads.length,
+    chat: filteredLeads.filter(lead => lead.source === "chat").length,
+    enquiry: filteredLeads.filter(lead => !lead.source || lead.source === "enquiry").length,
+    getQuote: filteredLeads.filter(lead => lead.source === "get-quote").length
   };
 
   return (
@@ -109,7 +122,7 @@ export default function AdminDashboard() {
               <h1 className="text-2xl font-bold text-brand-dark mb-1">
                 Riadah Typing Office Dashboard
               </h1>
-              <p className="text-body-sm text-brand-muted">UAE Premium CRM Admin Panel</p>
+              <p className="text-body-sm text-brand-muted">Riadah CRM Admin Panel</p>
             </div>
             <div className="flex gap-3">
               <button
@@ -129,13 +142,13 @@ export default function AdminDashboard() {
           </div>
         </div>
 
-        {/* Stats Cards */}
+         {/* Stats Cards */}
           <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
             <div className="bg-white rounded-xl shadow-soft p-6 transition-all duration-300 hover:shadow-soft-lg">
               <div className="flex items-center justify-between">
                 <div>
                   <p className="text-body-sm text-brand-muted font-medium mb-1">Total Leads</p>
-                  <p className="text-3xl font-bold text-brand-dark">{stats.total}</p>
+                  <p className="text-3xl font-bold text-brand-dark">{filteredStats.total}</p>
                 </div>
                 <div className="bg-uae-blue/10 rounded-lg p-3">
                   <svg className="w-6 h-6 text-uae-blue" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -149,7 +162,7 @@ export default function AdminDashboard() {
               <div className="flex items-center justify-between">
                 <div>
                   <p className="text-body-sm text-brand-muted font-medium mb-1">Chat Leads</p>
-                  <p className="text-3xl font-bold text-brand-dark">{stats.chat}</p>
+                  <p className="text-3xl font-bold text-brand-dark">{filteredStats.chat}</p>
                 </div>
                 <div className="bg-green-100 rounded-lg p-3">
                   <svg className="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -163,7 +176,7 @@ export default function AdminDashboard() {
               <div className="flex items-center justify-between">
                 <div>
                   <p className="text-body-sm text-brand-muted font-medium mb-1">Enquiry Leads</p>
-                  <p className="text-3xl font-bold text-brand-dark">{stats.enquiry}</p>
+                  <p className="text-3xl font-bold text-brand-dark">{filteredStats.enquiry}</p>
                 </div>
                 <div className="bg-gold-100 rounded-lg p-3">
                   <svg className="w-6 h-6 text-uae-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -177,7 +190,7 @@ export default function AdminDashboard() {
               <div className="flex items-center justify-between">
                 <div>
                   <p className="text-body-sm text-brand-muted font-medium mb-1">Get Quote Leads</p>
-                  <p className="text-3xl font-bold text-brand-dark">{stats.getQuote}</p>
+                  <p className="text-3xl font-bold text-brand-dark">{filteredStats.getQuote}</p>
                 </div>
                 <div className="bg-purple-100 rounded-lg p-3">
                   <svg className="w-6 h-6 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -217,6 +230,18 @@ export default function AdminDashboard() {
                   <option value="chat">Chat Leads</option>
                   <option value="enquiry">Enquiry Leads</option>
                   <option value="get-quote">Get Quote Leads</option>
+                </select>
+            </div>
+            <div className="w-full md:w-48">
+                <select
+                  value={dateFilter}
+                  onChange={(e) => setDateFilter(e.target.value)}
+                  className="block w-full pl-3 pr-10 py-2.5 border border-sand-300 rounded-lg text-sm bg-white focus:outline-none focus:ring-2 focus:ring-uae-gold focus:border-uae-gold transition-all"
+                >
+                  <option value="all">All Time</option>
+                  <option value="today">Today</option>
+                  <option value="week">This Week</option>
+                  <option value="month">This Month</option>
                 </select>
             </div>
           </div>
@@ -314,25 +339,26 @@ export default function AdminDashboard() {
                 </tbody>
               </table>
             </div>
-            <div className="bg-sand-50 px-6 py-3 border-t border-sand-200">
-              <div className="flex justify-between items-center">
-                <p className="text-sm text-brand-muted">
-                  Showing <span className="font-medium">{filteredLeads.length}</span> of{" "}
-                  <span className="font-medium">{leads.length}</span> leads
-                </p>
-                {filterType !== "all" && (
-                  <button
-                    onClick={() => {
-                      setFilterType("all");
-                      setSearchTerm("");
-                    }}
-                    className="text-sm text-uae-blue hover:text-uae-blue-dark transition-colors"
-                  >
-                    Clear filters
-                  </button>
-                )}
+             <div className="bg-sand-50 px-6 py-3 border-t border-sand-200">
+                <div className="flex justify-between items-center">
+                  <p className="text-sm text-brand-muted">
+                    Showing <span className="font-medium">{filteredLeads.length}</span> of{" "}
+                    <span className="font-medium">{leads.length}</span> leads
+                  </p>
+                  {(filterType !== "all" || dateFilter !== "all" || searchTerm) && (
+                    <button
+                      onClick={() => {
+                        setFilterType("all");
+                        setDateFilter("all");
+                        setSearchTerm("");
+                      }}
+                      className="text-sm text-uae-blue hover:text-uae-blue-dark transition-colors"
+                    >
+                      Clear filters
+                    </button>
+                  )}
+                </div>
               </div>
-            </div>
           </div>
         )}
       </div>

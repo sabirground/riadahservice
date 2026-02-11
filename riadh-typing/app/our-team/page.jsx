@@ -92,7 +92,7 @@ He oversees daily financial transactions and ensures compliance.`,
   {
     name: "Anas C.P",
     designation: "Customer Consultant – Branch Office",
-    image: "/team/Anas Cp.jpeg",
+    image: "/team/Anas CP F.jpeg",
     phone: "+971528003934",
     email: "riadahtyping@gmail.com",
     description: `Anas works as a Customer Consultant at the Branch Office of Riadah Typing Office.
@@ -102,7 +102,7 @@ He specializes in company setup, ticket booking, and travel services.`,
   {
     name: "Jazeel",
     designation: "Customer Consultant – Head Office",
-    image: "/team/M Jazeel.jpeg",
+    image: "/team/Zazeel.jpeg",
     phone: "+971586912158",
     email: "riadahtyping@gmail.com",
     description: `Jazeel is a Customer Consultant at the Head Office of Riadah Typing Office.
