@@ -33,12 +33,21 @@ export default function ChatWidget() {
   const [input, setInput] = useState("");
   const [isTyping, setIsTyping] = useState(false);
   const [submitted, setSubmitted] = useState(false);
+  const [showTooltip, setShowTooltip] = useState(true);
 
   const messagesEndRef = useRef(null);
 
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages, isTyping]);
+
+  // Hide tooltip after 5 seconds
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setShowTooltip(false);
+    }, 5000);
+    return () => clearTimeout(timer);
+  }, []);
 
   const isValidEmail = (email) => /\S+@\S+\.\S+/.test(email);
   const isValidPhone = (phone) => /^[0-9+\-\s]{7,15}$/.test(phone);
@@ -136,22 +145,95 @@ export default function ChatWidget() {
   return (
     <div id="chat-widget">
       {/* Chat Button */}
-      <motion.button
-        className="fixed bottom-24 right-6 w-16 h-16 bg-gradient-to-r from-blue-600 to-blue-700 text-white rounded-full shadow-2xl flex items-center justify-center z-[9999] hover:shadow-blue-500/50 hover:scale-105 transition-all duration-300"
-        onClick={() => setIsOpen(!isOpen)}
-        whileHover={{ scale: 1.1 }}
-        whileTap={{ scale: 0.95 }}
-      >
-        {isOpen ? (
-          "✖"
-        ) : (
-          <img
-            src="/Images/chaticon.jpg"
-            alt="Chat"
-            className="w-10 h-10 rounded-full object-cover"
-          />
-        )}
-      </motion.button>
+      <div className="fixed bottom-24 right-6 z-[9999]">
+        {/* Message Bubble Tooltip */}
+        <AnimatePresence>
+          {!isOpen && showTooltip && (
+            <motion.div
+              initial={{ opacity: 0, x: 20, scale: 0.8 }}
+              animate={{ opacity: 1, x: 0, scale: 1 }}
+              exit={{ opacity: 0, x: 20, scale: 0.8 }}
+              transition={{ duration: 0.3, ease: "easeOut" }}
+              className="absolute bottom-full right-0 mb-3 whitespace-nowrap"
+            >
+              <div className="relative bg-white px-4 py-2.5 rounded-2xl shadow-lg border border-gray-100">
+                <p className="text-sm font-medium text-gray-700">How can I assist you?</p>
+                {/* Arrow pointing down */}
+                <div className="absolute -bottom-2 right-6 w-4 h-4 bg-white border-r border-b border-gray-100 transform rotate-45"></div>
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+
+        <motion.button
+          className="w-16 h-16 bg-gradient-to-r from-blue-600 to-blue-700 text-white rounded-full shadow-2xl flex items-center justify-center hover:shadow-blue-500/50 hover:scale-105 transition-all duration-300"
+          onClick={() => setIsOpen(!isOpen)}
+          whileHover={{ scale: 1.1 }}
+          whileTap={{ scale: 0.95 }}
+        >
+          {isOpen ? (
+            <svg
+              className="w-6 h-6"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M6 18L18 6M6 6l12 12"
+              />
+            </svg>
+          ) : (
+            <motion.div
+              className="relative w-10 h-10 flex items-center justify-center"
+              animate={{
+                y: [0, -4, 0],
+              }}
+              transition={{
+                duration: 1.5,
+                repeat: Infinity,
+                ease: "easeInOut",
+              }}
+            >
+              {/* Animated rings/pulse effect */}
+              <motion.div
+                className="absolute inset-0 rounded-full bg-blue-400"
+                animate={{
+                  scale: [1, 1.4, 1],
+                  opacity: [0.5, 0, 0.5],
+                }}
+                transition={{
+                  duration: 2,
+                  repeat: Infinity,
+                  ease: "easeOut",
+                }}
+              />
+              {/* Robot icon SVG */}
+              <svg
+                className="w-8 h-8 text-white relative z-10"
+                fill="currentColor"
+                viewBox="0 0 24 24"
+              >
+                {/* Robot head */}
+                <rect x="5" y="6" width="14" height="12" rx="2" fill="currentColor" />
+                {/* Antenna */}
+                <line x1="12" y1="6" x2="12" y2="2" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+                <circle cx="12" cy="2" r="1.5" fill="currentColor" />
+                {/* Eyes */}
+                <circle cx="9" cy="10" r="1.5" fill="#1e40af" />
+                <circle cx="15" cy="10" r="1.5" fill="#1e40af" />
+                {/* Mouth */}
+                <rect x="9" y="14" width="6" height="2" rx="1" fill="#1e40af" />
+                {/* Ears */}
+                <rect x="3" y="9" width="2" height="4" rx="1" fill="currentColor" />
+                <rect x="19" y="9" width="2" height="4" rx="1" fill="currentColor" />
+              </svg>
+            </motion.div>
+          )}
+        </motion.button>
+      </div>
 
       {/* Chat Window */}
       <AnimatePresence>

@@ -69,20 +69,28 @@ export default function Navbar() {
                 href={link.href}
                 className={`relative px-5 py-2.5 text-sm font-medium transition-all duration-300 rounded-full group ${
                   activeLink === link.href
-                    ? "text-primary"
-                    : "text-slate-600 hover:text-primary"
+                    ? scrolled
+                      ? "text-primary"
+                      : "text-gold-400"
+                    : scrolled
+                      ? "text-slate-600 hover:text-primary"
+                      : "text-white/90 hover:text-white"
                 }`}
               >
                 <span className="relative z-10">{link.label}</span>
                 {activeLink === link.href && (
                   <motion.div
                     layoutId="activeNav"
-                    className="absolute inset-0 bg-sand-100 rounded-full"
+                    className={`absolute inset-0 rounded-full ${
+                      scrolled ? "bg-sand-100" : "bg-white/10"
+                    }`}
                     transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
                   />
                 )}
                 <motion.div
-                  className="absolute inset-0 bg-sand-100 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                  className={`absolute inset-0 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300 ${
+                    scrolled ? "bg-sand-100" : "bg-white/10"
+                  }`}
                   initial={false}
                 />
               </Link>
@@ -130,14 +138,20 @@ export default function Navbar() {
 
         {/* Mobile Menu Button */}
         <motion.button
-          className="md:hidden relative w-10 h-10 flex items-center justify-center rounded-full bg-sand-100 hover:bg-sand-200 transition-colors duration-300"
+          className={`md:hidden relative w-10 h-10 flex items-center justify-center rounded-full transition-colors duration-300 ${
+            scrolled
+              ? "bg-sand-100 hover:bg-sand-200"
+              : "bg-white/10 hover:bg-white/20 backdrop-blur-sm"
+          }`}
           onClick={() => setOpen(!open)}
           aria-label="Toggle Menu"
           whileTap={{ scale: 0.95 }}
         >
           <div className="relative w-5 h-4 flex flex-col justify-between">
             <motion.span
-              className="w-full h-0.5 bg-slate-800 rounded-full origin-left"
+              className={`w-full h-0.5 rounded-full origin-left ${
+                scrolled ? "bg-slate-800" : "bg-white"
+              }`}
               animate={{
                 rotate: open ? 45 : 0,
                 y: open ? 0 : 0,
@@ -145,7 +159,9 @@ export default function Navbar() {
               transition={{ duration: 0.3 }}
             />
             <motion.span
-              className="w-full h-0.5 bg-slate-800 rounded-full"
+              className={`w-full h-0.5 rounded-full ${
+                scrolled ? "bg-slate-800" : "bg-white"
+              }`}
               animate={{
                 opacity: open ? 0 : 1,
                 scaleX: open ? 0 : 1,
@@ -153,7 +169,9 @@ export default function Navbar() {
               transition={{ duration: 0.3 }}
             />
             <motion.span
-              className="w-full h-0.5 bg-slate-800 rounded-full origin-left"
+              className={`w-full h-0.5 rounded-full origin-left ${
+                scrolled ? "bg-slate-800" : "bg-white"
+              }`}
               animate={{
                 rotate: open ? -45 : 0,
                 y: open ? 0 : 0,

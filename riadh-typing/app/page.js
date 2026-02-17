@@ -3,7 +3,6 @@
 import Link from "next/link";
 import { motion } from "framer-motion";
 import services from "./data/services.js";
-import SimpleEnquiryForm from "./components/SimpleEnquiryForm";
 import {
   FadeInOnScroll,
   StaggerContainer,
@@ -16,151 +15,218 @@ import {
 export default function Home() {
   return (
     <>
-      {/* Premium UAE Corporate Hero Section */}
+      {/* Premium UAE Corporate Hero Section - Luxury Redesign */}
       <section className="relative min-h-screen flex items-center pt-20 overflow-hidden">
-        {/* Dubai Skyline Background */}
-        <div className="absolute inset-0 bg-cover bg-center bg-fixed" style={{ backgroundImage: "url('/Images/Background.jpg')" }}>
-          <div className="absolute inset-0 bg-gradient-to-r from-blue-900/90 via-blue-900/85 to-blue-800/95" />
-        </div>
+        {/* Deep Navy Base with Luxury Gradient */}
+        <div className="absolute inset-0 bg-gradient-to-br from-[#0a1929] via-[#0d2847] to-[#071422]" />
 
-        {/* Floating Particles Effect */}
+        {/* Elegant Geometric Pattern Overlay - UAE Inspired */}
+        <div className="absolute inset-0 opacity-[0.03]" style={{
+          backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M30 0L60 30L30 60L0 30z' fill='%23d4af37' fill-opacity='0.4'/%3E%3C/svg%3E")`,
+          backgroundSize: '60px 60px'
+        }} />
+
+        {/* Luxurious Gold Accent Lines - Top */}
+        <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-gold-500 to-transparent opacity-60" />
+        
+        {/* Decorative Gold Corner Accents */}
+        <div className="absolute top-20 left-8 w-24 h-24 border-l-2 border-t-2 border-gold-500/30 rounded-tl-3xl" />
+        <div className="absolute top-20 right-8 w-24 h-24 border-r-2 border-t-2 border-gold-500/30 rounded-tr-3xl" />
+        <div className="absolute bottom-20 left-8 w-24 h-24 border-l-2 border-b-2 border-gold-500/30 rounded-bl-3xl" />
+        <div className="absolute bottom-20 right-8 w-24 h-24 border-r-2 border-b-2 border-gold-500/30 rounded-br-3xl" />
+
+        {/* Floating Gold Particles - Enhanced */}
         <div className="absolute inset-0 pointer-events-none overflow-hidden">
-          {[...Array(15)].map((_, i) => (
+          {[...Array(20)].map((_, i) => (
             <motion.div
               key={i}
-              className="absolute w-1 h-1 bg-white/10 rounded-full"
+              className="absolute rounded-full"
+              style={{
+                width: 2 + (i % 4),
+                height: 2 + (i % 4),
+                background: i % 3 === 0 
+                  ? 'linear-gradient(135deg, #d4af37, #f9f3db)' 
+                  : i % 3 === 1 
+                    ? 'rgba(255, 255, 255, 0.15)'
+                    : 'rgba(212, 175, 55, 0.2)',
+                left: `${(i * 5) % 100}%`,
+                top: `${(i * 7) % 100}%`,
+              }}
               initial={{
-                x: (i * 7) % 100,
-                y: (i * 11) % 100,
-                opacity: 0.2 + (i % 5) * 0.1,
+                y: 0,
+                opacity: 0.3 + (i % 5) * 0.1,
               }}
               animate={{
-                y: [null, -50 - (i % 50)],
-                opacity: [null, 0.6 + (i % 4) * 0.2, 0],
+                y: [0, -30 - (i % 40), -60 - (i % 60)],
+                opacity: [0.3 + (i % 5) * 0.1, 0.6, 0],
+                scale: [1, 1.2, 0.8],
               }}
               transition={{
-                duration: 3 + (i % 3),
+                duration: 4 + (i % 4),
                 repeat: Infinity,
-                delay: i * 0.15,
+                delay: i * 0.2,
+                ease: "easeOut",
               }}
             />
           ))}
         </div>
 
+        {/* Ambient Light Effects */}
+        <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-gold-500/5 rounded-full blur-3xl" />
+        <div className="absolute bottom-1/4 right-1/4 w-80 h-80 bg-primary-400/5 rounded-full blur-3xl" />
+
         <div className="container relative z-10">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24 items-center">
-            {/* Left Content */}
+          <div className="max-w-5xl mx-auto text-center">
+            {/* Centered Content */}
             <motion.div
-              initial={{ opacity: 0, x: -30 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.7 }}
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, ease: "easeOut" }}
             >
-              <div className="inline-flex items-center gap-2 px-5 py-2.5 bg-gold-500/20 text-gold-400 rounded-full text-sm font-semibold mb-8 backdrop-blur-sm border border-gold-500/30">
-                <span className="w-2 h-2 bg-gold-400 rounded-full animate-pulse" />
-                UAE Certified Business Partner
-              </div>
+              {/* Premium Badge with Gold Border */}
+              <motion.div 
+                className="inline-flex items-center gap-3 px-6 py-3 bg-gradient-to-r from-gold-500/10 via-gold-500/15 to-gold-500/10 text-gold-300 rounded-full text-sm font-semibold mb-10 backdrop-blur-md border border-gold-500/40 shadow-lg shadow-gold-500/5"
+                initial={{ opacity: 0, scale: 0.9 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ delay: 0.2, duration: 0.5 }}
+              >
+                <span className="relative flex h-2.5 w-2.5">
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-gold-400 opacity-75"></span>
+                  <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-gradient-to-r from-gold-400 to-gold-300"></span>
+                </span>
+                <span className="tracking-wide">UAE Certified Business Partner</span>
+              </motion.div>
 
-              <h1 className="text-[clamp(2.5rem,5vw,4rem)] font-bold text-white mb-6 leading-tight">
-                Trusted UAE Business Setup Specialists{" "}
-                <span className="text-gradient-gold">-From Vision to Victory</span>
-              </h1>
+              {/* Main Heading with Enhanced Typography */}
+              <motion.h1 
+                className="text-[clamp(2.5rem,5.5vw,4.5rem)] font-extrabold text-white mb-8 leading-[1.1] tracking-tight"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.3, duration: 0.6 }}
+              >
+                <span className="block">Trusted UAE Business</span>
+                <span className="block mt-2">Setup Specialists</span>
+                <span className="block mt-4 text-2xl md:text-3xl font-semibold tracking-wide">
+                  <span className="text-gradient-gold">— From Vision to Victory</span>
+                </span>
+              </motion.h1>
 
-              <p className="text-lg text-blue-100 mb-10 max-w-xl leading-relaxed">
+              {/* Decorative Line */}
+              <motion.div 
+                className="flex items-center justify-center gap-3 mb-8"
+                initial={{ opacity: 0, scaleX: 0 }}
+                animate={{ opacity: 1, scaleX: 1 }}
+                transition={{ delay: 0.5, duration: 0.6 }}
+              >
+                <div className="w-16 h-px bg-gradient-to-r from-transparent to-gold-500/60" />
+                <div className="w-2 h-2 bg-gold-500 rounded-full" />
+                <div className="w-16 h-px bg-gradient-to-l from-transparent to-gold-500/60" />
+              </motion.div>
+
+              {/* Description with Better Contrast */}
+              <motion.p 
+                className="text-lg md:text-xl text-slate-200 mb-12 max-w-3xl mx-auto leading-relaxed font-light"
+                initial={{ opacity: 0, y: 15 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.4, duration: 0.6 }}
+              >
                 We provide premium, reliable, and professional services tailored for businesses and individuals across the UAE. 
                 From company formation to visa processing, trust us with your business needs.
-              </p>
+              </motion.p>
 
-              <div className="flex flex-wrap gap-5">
-                <motion.button
-                  whileHover={{ scale: 1.05, y: -2 }}
-                  whileTap={{ scale: 0.98 }}
-                  className="inline-flex items-center gap-2 px-10 py-5 text-base font-bold text-blue-900 bg-gradient-to-r from-gold-400 to-gold-500 rounded-2xl shadow-lg hover:shadow-gold-500/50 transition-all duration-300"
-                  onClick={() => document.getElementById('service-request-form').scrollIntoView({ behavior: 'smooth' })}
-                >
-                  Service Request
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    className="h-5 w-5"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
+              {/* Enhanced CTA Buttons */}
+              <motion.div 
+                className="flex flex-wrap justify-center gap-5"
+                initial={{ opacity: 0, y: 15 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.5, duration: 0.6 }}
+              >
+                <Link href="/get-quote">
+                  <motion.span
+                    whileHover={{ scale: 1.03, y: -3 }}
+                    whileTap={{ scale: 0.98 }}
+                    className="inline-flex items-center gap-3 px-10 py-5 text-base font-bold text-[#0a1929] bg-gradient-to-r from-gold-400 via-gold-300 to-gold-400 rounded-xl shadow-xl shadow-gold-500/30 transition-all duration-300 border border-gold-300/50"
+                    style={{
+                      background: 'linear-gradient(135deg, #f9f3db 0%, #d4af37 25%, #f9f3db 50%, #d4af37 75%, #f9f3db 100%)',
+                      backgroundSize: '200% 200%',
+                    }}
                   >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M17 8l4 4m0 0l-4 4m4-4H3"
-                    />
-                  </svg>
-                </motion.button>
+                    Start Your Bussiness
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      className="h-5 w-5"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2.5}
+                        d="M17 8l4 4m0 0l-4 4m4-4H3"
+                      />
+                    </svg>
+                  </motion.span>
+                </Link>
 
                 <Link href="/services">
                   <motion.span
-                    whileHover={{ scale: 1.05, y: -2 }}
+                    whileHover={{ scale: 1.03, y: -3 }}
                     whileTap={{ scale: 0.98 }}
-                    className="inline-flex items-center gap-2 px-10 py-5 text-base font-semibold text-white bg-white/10 border-2 border-white/30 rounded-2xl backdrop-blur-sm hover:bg-white/20 transition-all duration-300"
+                    className="inline-flex items-center gap-3 px-10 py-5 text-base font-semibold text-white bg-white/5 border-2 border-gold-500/40 rounded-xl backdrop-blur-sm hover:bg-gold-500/10 hover:border-gold-500/60 transition-all duration-300"
                   >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      className="h-5 w-5 text-gold-400"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M4 6h16M4 12h16M4 18h7"
+                      />
+                    </svg>
                     Our Services
                   </motion.span>
                 </Link>
-              </div>
+              </motion.div>
 
-              {/* Trust Indicators */}
-              <div className="flex items-center gap-10 mt-16 pt-8 border-t border-white/20">
-                <div className="text-center">
-                  <div className="text-3xl font-bold text-gold-400">10+</div>
-                  <div className="text-sm text-blue-200 mt-1">Years Experience</div>
-                </div>
-                <div className="w-px h-14 bg-white/20" />
-                <div className="text-center">
-                  <div className="text-3xl font-bold text-gold-400">5000+</div>
-                  <div className="text-sm text-blue-200 mt-1">Happy Clients</div>
-                </div>
-                <div className="w-px h-14 bg-white/20" />
-                <div className="text-center">
-                  <div className="text-3xl font-bold text-gold-400">100%</div>
-                  <div className="text-sm text-blue-200 mt-1">Satisfaction</div>
-                </div>
-              </div>
-            </motion.div>
-
-            {/* Right: Professional Enquiry Form */}
-            <motion.div
-              initial={{ opacity: 0, x: 30 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ delay: 0.3, duration: 0.7 }}
-              className="relative"
-            >
-              <div className="relative">
-                <div id="service-request-form" className="bg-white/90 backdrop-blur-lg rounded-2xl shadow-2xl p-4 sm:p-8 relative z-10 transform hover:scale-[1.02] transition-all duration-300 border border-white/50">
-                  {/* Form Header */}
-                  <div className="flex items-center justify-between mb-6 pb-4 border-b-2 border-blue-200/50">
-                    <div className="flex items-center gap-2">
-                      <div className="w-4 h-4 rounded-full bg-blue-600 flex items-center justify-center">
-                        <span className="w-1.5 h-1.5 rounded-full bg-white/50" />
+              {/* Enhanced Trust Indicators */}
+              <motion.div 
+                className="mt-20 pt-10 border-t border-gold-500/20"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.7, duration: 0.6 }}
+              >
+                <div className="flex flex-wrap items-center justify-center gap-8 md:gap-16">
+                  {[
+                    { number: "10+", label: "Years Experience" },
+                    { number: "5000+", label: "Happy Clients" },
+                    { number: "100%", label: "Satisfaction" },
+                  ].map((item, index) => (
+                    <div key={index} className="text-center group">
+                      <div className="relative">
+                        <div className="text-4xl md:text-5xl font-bold text-gradient-gold mb-2 transition-transform duration-300 group-hover:scale-105">
+                          {item.number}
+                        </div>
+                        <div className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-8 h-0.5 bg-gradient-to-r from-transparent via-gold-500 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                       </div>
-                      <span className="text-sm font-semibold text-blue-900">Service Request</span>
+                      <div className="text-sm md:text-base text-slate-300 font-medium tracking-wide">
+                        {item.label}
+                      </div>
                     </div>
-                    <div className="flex gap-1.5">
-                      <div className="w-2 h-2 rounded-full bg-blue-300/50" />
-                      <div className="w-2 h-2 rounded-full bg-blue-300/50" />
-                      <div className="w-2 h-2 rounded-full bg-blue-300/50" />
-                    </div>
-                  </div>
-
-                  <h3 className="text-2xl font-bold text-blue-900 mb-6">Get a callback</h3>
-                  
-                  {/* Quick Enquiry Form */}
-                  <SimpleEnquiryForm />
+                  ))}
                 </div>
-
-                {/* Decorative Elements */}
-                <div className="absolute -top-8 -right-8 w-32 h-32 bg-blue-500/20 rounded-3xl blur-2xl" />
-                <div className="absolute -bottom-8 -left-8 w-40 h-40 bg-gold-400/15 rounded-3xl blur-2xl" />
-              </div>
+              </motion.div>
             </motion.div>
           </div>
         </div>
+
+        {/* Bottom Gradient Fade */}
+        <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-sand-50 to-transparent" />
       </section>
 
       {/* Services Section - Enhanced Grid */}
