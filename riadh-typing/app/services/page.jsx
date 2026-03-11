@@ -95,7 +95,8 @@ export default function ServicesPage() {
                             <Link
                               href={`/services/${item
                                 .toLowerCase()
-                                .replace(/ /g, "-")}`}
+                                .replace(/[^a-z0-9]+/g, '-')
+                                .replace(/^-|-$/g, '')}`}
                               className="mt-4 inline-flex items-center gap-2 text-sm font-medium text-gold-600 hover:text-gold-700 transition-colors duration-300"
                             >
                               View Details

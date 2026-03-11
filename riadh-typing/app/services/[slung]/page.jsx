@@ -1,5 +1,6 @@
 import EnquiryForm from '../../components/EnquiryForm';
 import services from '../../data/services';
+import { rawServices } from '../../data/services';
 
 export default async function ServiceDetail({ params }) {
   const { slung } = await params;
@@ -19,7 +20,23 @@ export default async function ServiceDetail({ params }) {
   }
 
   // Find the actual service from the services data
-  const service = services.find(s => s.slug === slung);
+  // Check both category slugs and item slugs
+  let service = services.find(s => s.slug === slung);
+  let serviceItem = null;
+  
+  if (!service) {
+    // Check if it's an item slug
+    for (const category of rawServices) {
+      serviceItem = category.items.find(item => {
+        const itemSlug = item.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+        return itemSlug === slung;
+      });
+      
+      if (serviceItem) {
+        break;
+      }
+    }
+  }
   
   if (service) {
     return (
@@ -32,6 +49,19 @@ export default async function ServiceDetail({ params }) {
         </p>
 
         <EnquiryForm preSelectedServices={[service.title]} />
+      </section>
+    );
+  } else if (serviceItem) {
+    return (
+      <section className="section pt-32 max-w-4xl">
+        <h1 className="text-4xl font-bold mb-6">{serviceItem}</h1>
+
+        <p className="text-slate-600 mb-6">
+          We provide professional assistance for {serviceItem}.  
+          Contact us for eligibility, required documents and processing time.
+        </p>
+
+        <EnquiryForm preSelectedServices={[serviceItem]} />
       </section>
     );
   }

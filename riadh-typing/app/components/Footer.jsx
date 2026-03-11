@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { motion } from "framer-motion";
+import Image from "next/image";
 import {
   FadeInOnScroll,
   StaggerContainer,
@@ -64,7 +65,7 @@ export default function Footer() {
       {/* Background Pattern */}
       <div className="absolute inset-0 pointer-events-none">
         <div className="absolute top-0 left-1/4 w-96 h-96 bg-gold-500/5 rounded-full blur-3xl" />
-        <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-primary-500/5 rounded-full blur-3xl" />
+        <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-gold-600/5 rounded-full blur-3xl" />
       </div>
 
       <div className="container relative z-10 py-16">
@@ -76,9 +77,11 @@ export default function Footer() {
           <StaggerItem>
             <div>
               <Link href="/" className="inline-block mb-6">
-                <img
+                <Image
                   src="/Images/ftviewlog-removebg-preview (1).png"
                   alt="Riadah Services"
+                  width={200}
+                  height={56}
                   className="h-14 w-auto brightness-0 invert"
                 />
               </Link>

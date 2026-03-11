@@ -8,24 +8,12 @@
 @tailwind utilities;
 
 :root {
-  /* UAE Government Premium Color System */
-  --primary: #0b3c5d;
-  --primary-dark: #09364a;
-  --primary-light: #0d4a73;
+  /* UAE Corporate Blue & Gold Theme */
+  --primary: #1e40af;
+  --primary-dark: #1e3a8a;
+  --primary-light: #3b82f6;
   
-  /* Desert Sand Palette */
-  --sand-50: #faf8f4;
-  --sand-100: #f5f0e8;
-  --sand-200: #ebe0d1;
-  --sand-300: #e0d0ba;
-  --sand-400: #d5c0a3;
-  --sand-500: #c9b99a;
-  --sand-600: #b5a27a;
-  --sand-700: #a08b5a;
-  --sand-800: #8b743a;
-  --sand-900: #765d1a;
-  
-  /* UAE Gold Accent Palette */
+  /* Premium Gold Accent Palette */
   --gold-50: #fcf9ed;
   --gold-100: #f9f3db;
   --gold-200: #f3e7b7;
@@ -37,10 +25,22 @@
   --gold-800: #b38e1f;
   --gold-900: #a88317;
   
-  /* Neutral Colors */
-  --light: #faf8f4;
+  /* Professional Neutral Palette */
+  --sand-50: #f8fafc;
+  --sand-100: #f1f5f9;
+  --sand-200: #e2e8f0;
+  --sand-300: #cbd5e1;
+  --sand-400: #94a3b8;
+  --sand-500: #64748b;
+  --sand-600: #475569;
+  --sand-700: #334155;
+  --sand-800: #1e293b;
+  --sand-900: #0f172a;
+  
+  /* Business Colors */
+  --light: #f8fafc;
   --dark: #0f172a;
-  --text: #334155;
+  --text: #1e293b;
   --text-muted: #64748b;
   
   /* Glassmorphism */
@@ -249,14 +249,14 @@ a:hover {
 
 .btn-primary {
   background: var(--primary);
-  color: #fff;
-  box-shadow: 0 4px 14px rgba(11, 60, 93, 0.25);
+  color: var(--dark);
+  box-shadow: 0 4px 14px rgba(212, 175, 55, 0.25);
 }
 
 .btn-primary:hover {
   background: var(--primary-dark);
   transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(11, 60, 93, 0.35);
+  box-shadow: 0 6px 20px rgba(212, 175, 55, 0.35);
 }
 
 .btn-secondary {
@@ -279,7 +279,7 @@ a:hover {
 
 .btn-outline:hover {
   background: var(--primary);
-  color: #fff;
+  color: var(--dark);
 }
 
 .btn-gold {
@@ -418,15 +418,23 @@ select:focus-visible {
   right: 0;
 }
 
-/* Text Gradient */
+/* Professional Text Gradients */
 .text-gradient-gold {
-  background: linear-gradient(135deg, var(--gold-600) 0%, var(--gold-400) 50%, var(--gold-600) 100%);
+  background: linear-gradient(135deg, var(--gold-700) 0%, var(--gold-400) 30%, var(--gold-200) 50%, var(--gold-400) 70%, var(--gold-700) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  background-size: 200% 200%;
+}
+
+.text-gradient-primary {
+  background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
 }
 
-.text-gradient-primary {
+.text-gradient-blue {
   background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -438,7 +446,7 @@ select:focus-visible {
   background-color: var(--sand-50);
   background-image: 
     radial-gradient(circle at 20% 80%, rgba(212, 175, 55, 0.03) 0%, transparent 50%),
-    radial-gradient(circle at 80% 20%, rgba(11, 60, 93, 0.03) 0%, transparent 50%);
+    radial-gradient(circle at 80% 20%, rgba(212, 175, 55, 0.03) 0%, transparent 50%);
 }
 
 /* Premium Section Divider */

@@ -166,14 +166,14 @@ export default function ChatWidget() {
         </AnimatePresence>
 
         <motion.button
-          className="w-16 h-16 bg-gradient-to-r from-blue-600 to-blue-700 text-white rounded-full shadow-2xl flex items-center justify-center hover:shadow-blue-500/50 hover:scale-105 transition-all duration-300"
+          className="w-20 h-20 bg-transparent text-white rounded-full shadow-lg flex items-center justify-center hover:shadow-blue-500/30 hover:scale-105 transition-all duration-300"
           onClick={() => setIsOpen(!isOpen)}
           whileHover={{ scale: 1.1 }}
           whileTap={{ scale: 0.95 }}
         >
           {isOpen ? (
             <svg
-              className="w-6 h-6"
+              className="w-10 h-10"
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"
@@ -187,22 +187,41 @@ export default function ChatWidget() {
             </svg>
           ) : (
             <motion.div
-              className="relative w-10 h-10 flex items-center justify-center"
+              className="relative w-full h-full flex items-center justify-center"
               animate={{
                 y: [0, -4, 0],
               }}
               transition={{
-                duration: 1.5,
+                duration: 2,
                 repeat: Infinity,
                 ease: "easeInOut",
               }}
             >
-              {/* Animated rings/pulse effect */}
+              {/* Premium Chat Icon */}
               <motion.div
-                className="absolute inset-0 rounded-full bg-blue-400"
+                className="relative w-12 h-12"
                 animate={{
-                  scale: [1, 1.4, 1],
-                  opacity: [0.5, 0, 0.5],
+                  rotate: [0, 10, -10, 0],
+                }}
+                transition={{
+                  duration: 4,
+                  repeat: Infinity,
+                  ease: "easeInOut",
+                }}
+              >
+                <img
+                  src="/Images/chaticon3d-removebg-preview.png"
+                  alt="Chat Icon"
+                  className="w-full h-full relative z-10 object-contain"
+                />
+              </motion.div>
+              
+              {/* Subtle sparkle effect */}
+              <motion.div
+                className="absolute -top-2 -right-2 w-3 h-3 bg-blue-300 rounded-full"
+                animate={{
+                  scale: [0.5, 1, 0.5],
+                  opacity: [0.6, 1, 0.6],
                 }}
                 transition={{
                   duration: 2,
@@ -210,26 +229,6 @@ export default function ChatWidget() {
                   ease: "easeOut",
                 }}
               />
-              {/* Robot icon SVG */}
-              <svg
-                className="w-8 h-8 text-white relative z-10"
-                fill="currentColor"
-                viewBox="0 0 24 24"
-              >
-                {/* Robot head */}
-                <rect x="5" y="6" width="14" height="12" rx="2" fill="currentColor" />
-                {/* Antenna */}
-                <line x1="12" y1="6" x2="12" y2="2" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
-                <circle cx="12" cy="2" r="1.5" fill="currentColor" />
-                {/* Eyes */}
-                <circle cx="9" cy="10" r="1.5" fill="#1e40af" />
-                <circle cx="15" cy="10" r="1.5" fill="#1e40af" />
-                {/* Mouth */}
-                <rect x="9" y="14" width="6" height="2" rx="1" fill="#1e40af" />
-                {/* Ears */}
-                <rect x="3" y="9" width="2" height="4" rx="1" fill="currentColor" />
-                <rect x="19" y="9" width="2" height="4" rx="1" fill="currentColor" />
-              </svg>
             </motion.div>
           )}
         </motion.button>
@@ -246,20 +245,35 @@ export default function ChatWidget() {
             transition={{ duration: 0.3, ease: "easeOut" }}
           >
             {/* Header */}
-            <div className="bg-gradient-to-r from-blue-600 to-blue-700 text-white p-4 flex items-center justify-between shadow-lg">
+            <div className="bg-gradient-to-br from-blue-600 via-blue-700 to-blue-800 text-white p-4 flex items-center justify-between shadow-lg border-b-4 border-blue-400">
               <div className="flex items-center gap-3">
-                <img
-                  src="/Images/logo.png-removebg-preview.png"
-                  alt="Riadah"
-                  className="w-10 h-10 rounded-full object-cover border-2 border-white/30"
-                />
+                {/* Premium Chat Avatar */}
+                <div className="relative">
+                  <motion.div
+                    className="w-12 h-12 rounded-full bg-gradient-to-br from-blue-400 to-blue-500 flex items-center justify-center shadow-[0_0_15px_rgba(37,99,235,0.6)]"
+                    animate={{
+                      rotate: [0, 4, -4, 0],
+                    }}
+                    transition={{
+                      duration: 3,
+                      repeat: Infinity,
+                      ease: "easeInOut",
+                    }}
+                  >
+                    <img
+                      src="/Images/chaticon3d.webp"
+                      alt="Chat Avatar"
+                      className="w-8 h-8 object-contain"
+                    />
+                  </motion.div>
+                </div>
                 <div>
                   <h3 className="font-semibold text-base">Riadah Support</h3>
-                  <p className="text-xs text-blue-100">Abu Dhabi Al Ain Business Desk</p>
+                  <p className="text-xs text-blue-100">UAE Premium Business Desk</p>
                 </div>
               </div>
               <div className="flex items-center gap-2">
-                <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
+                <div className="w-2 h-2 bg-blue-300 rounded-full animate-pulse"></div>
                 <span className="text-xs text-blue-100">Online</span>
               </div>
             </div>

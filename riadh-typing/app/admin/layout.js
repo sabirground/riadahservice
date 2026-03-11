@@ -17,7 +17,12 @@ export const metadata = {
     shortcut: "/Images/logo.png-removebg-preview.png",
     apple: "/Images/logo.png-removebg-preview.png",
   },
-  viewport: "width=device-width, initial-scale=1, maximum-scale=5",
+};
+
+export const viewport = {
+  width: 'device-width',
+  initialScale: 1,
+  maximumScale: 5,
 };
 
 export default function AdminLayout({ children }) {
@@ -29,11 +34,6 @@ export default function AdminLayout({ children }) {
           rel="preconnect"
           href="https://fonts.gstatic.com"
           crossOrigin="anonymous"
-        />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <meta
-          name="viewport"
-          content="width=device-width, initial-scale=1, maximum-scale=5"
         />
         <link rel="icon" href="/Images/logo.png-removebg-preview.png" type="image/png" />
         <link rel="shortcut icon" href="/Images/logo.png-removebg-preview.png" type="image/png" />
