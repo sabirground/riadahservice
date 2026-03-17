@@ -18,7 +18,7 @@ export default function Home() {
     <>
 {/* PREMIUM UAE CORPORATE HERO */}
 
-<section className="relative pt-28 pb-24 bg-white overflow-hidden">
+<section className="relative pt-16 md:pt-28 pb-16 md:pb-24 bg-white overflow-hidden">
 
 {/* subtle gold accent line */}
 
@@ -30,7 +30,7 @@ export default function Home() {
 initial={{ opacity:0, y:40 }}
 animate={{ opacity:1, y:0 }}
 transition={{ duration:0.7 }}
-className="max-w-6xl mx-auto grid lg:grid-cols-2 gap-16 items-center"
+className="max-w-6xl mx-auto grid md:grid-cols-2 gap-8 md:gap-16 items-center"
 >
 
 {/* LEFT CONTENT */}
@@ -63,14 +63,14 @@ and businesses establish themselves successfully in the UAE.
 
 {/* CTA BUTTONS */}
 
-<div className="flex flex-wrap gap-4">
+<div className="flex flex-col gap-3 w-full sm:w-auto sm:flex-row sm:gap-4">
 
-<Link href="/get-quote">
+<Link href="/get-quote" className="w-full sm:w-auto">
 
 <motion.span
 whileHover={{ y:-2 }}
 whileTap={{ scale:0.97 }}
-className="px-8 py-4 bg-gold-500 text-white font-semibold rounded-lg shadow-md hover:bg-gold-600 transition"
+className="block w-full sm:w-auto px-6 sm:px-8 py-3 sm:py-4 bg-gold-500 text-white font-semibold rounded-lg shadow-md hover:bg-gold-600 transition text-center"
 >
 
 Start Your Business
@@ -79,12 +79,12 @@ Start Your Business
 
 </Link>
 
-<Link href="/services">
+<Link href="/services" className="w-full sm:w-auto">
 
 <motion.span
 whileHover={{ y:-2 }}
 whileTap={{ scale:0.97 }}
-className="px-8 py-4 border border-slate-300 text-slate-700 font-semibold rounded-lg hover:border-gold-500 hover:text-gold-600 transition"
+className="block w-full sm:w-auto px-6 sm:px-8 py-3 sm:py-4 border border-slate-300 text-slate-700 font-semibold rounded-lg hover:border-gold-500 hover:text-gold-600 transition text-center"
 >
 
 View Services
@@ -97,7 +97,7 @@ View Services
 
 {/* TRUST STATS */}
 
-<div className="grid grid-cols-3 gap-8 mt-12 pt-10 border-t border-slate-200">
+<div className="grid grid-cols-1 sm:grid-cols-3 gap-6 md:gap-8 mt-10 md:mt-12 pt-8 md:pt-10 border-t border-slate-200">
 
 <div>
 
@@ -130,9 +130,9 @@ View Services
 
 {/* RIGHT SIDE BUSINESS CARD */}
 
-<div className="relative">
+<div className="relative mt-8 md:mt-0">
 
-<div className="bg-white border border-slate-200 rounded-2xl p-10 shadow-xl">
+<div className="bg-white border border-slate-200 rounded-2xl p-6 md:p-10 shadow-xl">
 
 <h3 className="text-xl font-semibold text-slate-900 mb-6">
 Why Choose Our Services

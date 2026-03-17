@@ -14,7 +14,6 @@ export async function GET(req) {
     .order("created_at", { ascending: false });
 
   if (error) {
-    console.error(error);
     return NextResponse.json([], { status: 500 });
   }
 

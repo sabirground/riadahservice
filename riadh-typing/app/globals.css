@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600;700&family=Noto+Sans+Arabic:wght@300;400;500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=DM+Sans:wght@300;400;500;600;700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600;700&family=Noto+Sans+Arabic:wght@300;400;500;600;700;800&display=swap');
 
 /* stylelint-disable-next-line unknownAtRules */
 @tailwind base;
@@ -56,9 +56,12 @@
   --radius-full: 9999px;
 
   /* Typography Scale - Optimized for Windows High-DPI */
+  /* Using tighter clamp ranges to prevent oversized fonts on Windows */
   --font-display: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
   --font-body: 'Inter', system-ui, -apple-system, sans-serif;
   --font-arabic: 'Noto Sans Arabic', system-ui, sans-serif;
+  --font-cormorant: 'Cormorant Garamond', Georgia, serif;
+  --font-dm-sans: 'DM Sans', system-ui, sans-serif;
 
   /* Font Sizes - Fluid Typography with Windows High-DPI optimization */
   /* Using tighter clamp ranges to prevent oversized fonts on Windows */

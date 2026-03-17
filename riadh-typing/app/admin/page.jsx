@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
 
 export default function AdminDashboard() {
   const router = useRouter();
@@ -11,12 +12,176 @@ export default function AdminDashboard() {
   const [filterType, setFilterType] = useState("all");
   const [dateFilter, setDateFilter] = useState("all");
   const [exporting, setExporting] = useState(false);
+  
+  // Gallery state
+  const [activeTab, setActiveTab] = useState("leads");
+  const [galleryImages, setGalleryImages] = useState([]);
+  const [galleryLoading, setGalleryLoading] = useState(false);
+  const [showAddModal, setShowAddModal] = useState(false);
+  const [newImage, setNewImage] = useState({ image_url: "", title: "", description: "", category: "general" });
+  const [addingImage, setAddingImage] = useState(false);
+  const [deletingId, setDeletingId] = useState(null);
+  const [editingImage, setEditingImage] = useState(null);
+  const [editImageData, setEditImageData] = useState({ image_url: "", title: "", description: "", category: "general" });
+  const [updatingImage, setUpdatingImage] = useState(false);
+  const [uploadingFile, setUploadingFile] = useState(false);
 
   // 🔐 Check login
   useEffect(() => {
     const auth = localStorage.getItem("admin-auth");
     if (!auth) router.push("/admin/login");
   }, [router]);
+
+  // 📥 Fetch gallery images
+  const fetchGalleryImages = async () => {
+    setGalleryLoading(true);
+    try {
+      const res = await fetch("/api/gallery");
+      const data = await res.json();
+      setGalleryImages(Array.isArray(data) ? data : []);
+    } catch (error) {
+      console.error("Error fetching gallery:", error);
+      setGalleryImages([]);
+    } finally {
+      setGalleryLoading(false);
+    }
+  };
+
+  // Add new gallery image
+  const handleAddImage = async (e) => {
+    e.preventDefault();
+    if (!newImage.image_url) return;
+    
+    setAddingImage(true);
+    try {
+      const res = await fetch("/api/gallery", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(newImage),
+      });
+      
+      if (res.ok) {
+        const addedImage = await res.json();
+        setGalleryImages([addedImage, ...galleryImages]);
+        setShowAddModal(false);
+        setNewImage({ image_url: "", title: "", description: "", category: "general" });
+      }
+    } catch (error) {
+      console.error("Error adding image:", error);
+    } finally {
+      setAddingImage(false);
+    }
+  };
+
+  // Delete gallery image
+  const handleDeleteImage = async (id) => {
+    if (!confirm("Are you sure you want to delete this image?")) return;
+    
+    setDeletingId(id);
+    try {
+      const res = await fetch(`/api/gallery?id=${id}`, {
+        method: "DELETE",
+      });
+      
+      if (res.ok) {
+        setGalleryImages(galleryImages.filter((img) => img.id !== id));
+      }
+    } catch (error) {
+      console.error("Error deleting image:", error);
+    } finally {
+      setDeletingId(null);
+    }
+  };
+
+  // Handle file upload from computer
+  const handleFileUpload = async (e, isEdit = false) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    // Validate file type
+    if (!file.type.startsWith("image/")) {
+      alert("Please select an image file");
+      return;
+    }
+
+    // Validate file size (max 5MB)
+    if (file.size > 5 * 1024 * 1024) {
+      alert("File size must be less than 5MB");
+      return;
+    }
+
+    setUploadingFile(true);
+    try {
+      // Convert to base64 for storage
+      const reader = new FileReader();
+      reader.onload = async () => {
+        const base64 = reader.result;
+        if (isEdit) {
+          setEditImageData({ ...editImageData, image_url: base64 });
+        } else {
+          setNewImage({ ...newImage, image_url: base64 });
+        }
+        setUploadingFile(false);
+      };
+      reader.onerror = () => {
+        alert("Failed to read file");
+        setUploadingFile(false);
+      };
+      reader.readAsDataURL(file);
+    } catch (error) {
+      console.error("Error uploading file:", error);
+      alert("Failed to upload file");
+      setUploadingFile(false);
+    }
+  };
+
+  // Open edit modal
+  const handleEditClick = (image) => {
+    setEditingImage(image);
+    setEditImageData({
+      image_url: image.image_url || "",
+      title: image.title || "",
+      description: image.description || "",
+      category: image.category || "general"
+    });
+  };
+
+  // Update gallery image
+  const handleUpdateImage = async (e) => {
+    e.preventDefault();
+    
+    if (!editingImage?.id) {
+      alert("No image selected for editing");
+      return;
+    }
+    
+    setUpdatingImage(true);
+    try {
+      const res = await fetch(`/api/gallery?id=${editingImage.id}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(editImageData),
+      });
+      
+      const data = await res.json();
+      
+      if (res.ok) {
+        // Refresh the gallery to get updated data
+        await fetchGalleryImages();
+        setEditingImage(null);
+        setEditImageData({ image_url: "", title: "", description: "", category: "general" });
+        alert("Image updated successfully!");
+      } else {
+        console.error("Update failed:", data);
+        alert(data.error || "Failed to update image");
+      }
+    } catch (error) {
+      console.error("Error updating image:", error);
+      alert("Failed to update image. Please try again.");
+    } finally {
+      setUpdatingImage(false);
+    }
+  };
 
   // 📥 Fetch leads
   useEffect(() => {
@@ -35,6 +200,13 @@ export default function AdminDashboard() {
     };
     fetchLeads();
   }, []);
+
+  // Fetch gallery when tab changes
+  useEffect(() => {
+    if (activeTab === "gallery") {
+      fetchGalleryImages();
+    }
+  }, [activeTab]);
 
   // 🔍 Filter leads
   const filteredLeads = leads.filter((lead) => {
@@ -125,6 +297,26 @@ export default function AdminDashboard() {
               <p className="text-body-sm text-brand-muted">Riadah CRM Admin Panel</p>
             </div>
             <div className="flex gap-3">
+              <button
+                onClick={() => setActiveTab("leads")}
+                className={`px-5 py-2.5 rounded-lg text-sm font-medium transition-colors ${
+                  activeTab === "leads" 
+                    ? "bg-uae-blue text-white" 
+                    : "bg-white border border-sand-300 text-brand-dark hover:bg-sand-50"
+                }`}
+              >
+                Leads
+              </button>
+              <button
+                onClick={() => setActiveTab("gallery")}
+                className={`px-5 py-2.5 rounded-lg text-sm font-medium transition-colors ${
+                  activeTab === "gallery" 
+                    ? "bg-uae-gold text-white" 
+                    : "bg-white border border-sand-300 text-brand-dark hover:bg-sand-50"
+                }`}
+              >
+                Gallery
+              </button>
               <button
                 onClick={exportToExcel}
                 disabled={exporting || filteredLeads.length === 0}
@@ -359,6 +551,361 @@ export default function AdminDashboard() {
                   )}
                 </div>
               </div>
+          </div>
+        )}
+
+        {/* Gallery Tab */}
+        {activeTab === "gallery" && (
+          <div className="space-y-6">
+            {/* Gallery Header */}
+            <div className="bg-white rounded-xl shadow-soft p-6">
+              <div className="flex flex-col md:flex-row justify-between items-center gap-4">
+                <div>
+                  <h2 className="text-xl font-bold text-brand-dark mb-1">
+                    Gallery Management
+                  </h2>
+                  <p className="text-sm text-brand-muted">
+                    Add and manage gallery images ({galleryImages.length} images)
+                  </p>
+                </div>
+                <button
+                  onClick={() => setShowAddModal(true)}
+                  className="px-5 py-2.5 bg-uae-gold text-white rounded-lg text-sm font-medium hover:bg-uae-gold-dark transition-colors flex items-center gap-2"
+                >
+                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
+                  </svg>
+                  Add Image
+                </button>
+              </div>
+            </div>
+
+            {/* Gallery Loading */}
+            {galleryLoading ? (
+              <div className="bg-white rounded-xl shadow-soft p-12 text-center">
+                <div className="animate-spin rounded-full h-10 w-10 border-b-2 border-uae-gold mx-auto mb-4"></div>
+                <p className="text-brand-muted">Loading gallery...</p>
+              </div>
+            ) : (
+              /* Gallery Grid */
+              <div className="bg-white rounded-xl shadow-soft overflow-hidden">
+                {galleryImages.length === 0 ? (
+                  <div className="p-12 text-center">
+                    <div className="w-20 h-20 mx-auto mb-4 bg-sand-100 rounded-full flex items-center justify-center">
+                      <svg className="w-10 h-10 text-sand-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                      </svg>
+                    </div>
+                    <h3 className="text-lg font-semibold text-brand-dark mb-2">No gallery images</h3>
+                    <p className="text-brand-muted mb-4">Add your first image to get started.</p>
+                    <button
+                      onClick={() => setShowAddModal(true)}
+                      className="px-5 py-2.5 bg-uae-gold text-white rounded-lg text-sm font-medium hover:bg-uae-gold-dark transition-colors"
+                    >
+                      Add First Image
+                    </button>
+                  </div>
+                ) : (
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 p-6">
+                    {galleryImages.map((image) => (
+                      <div key={image.id || image.image_url} className="group relative rounded-lg overflow-hidden bg-sand-100">
+                        <div className="aspect-[4/3] relative">
+                          <Image
+                            src={image.image_url}
+                            alt={image.title || "Gallery image"}
+                            fill
+                            className="object-cover"
+                          />
+                          <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-2">
+                            <button
+                              onClick={() => handleEditClick(image)}
+                              className="p-2 bg-uae-blue text-white rounded-full hover:bg-uae-blue-dark transition-colors"
+                              title="Edit"
+                            >
+                              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                              </svg>
+                            </button>
+                            <button
+                              onClick={() => handleDeleteImage(image.id)}
+                              disabled={deletingId === image.id}
+                              className="p-2 bg-red-500 text-white rounded-full hover:bg-red-600 transition-colors disabled:opacity-50"
+                            >
+                              {deletingId === image.id ? (
+                                <svg className="w-5 h-5 animate-spin" fill="none" viewBox="0 0 24 24">
+                                  <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                                  <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                                </svg>
+                              ) : (
+                                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                                </svg>
+                              )}
+                            </button>
+                          </div>
+                        </div>
+                        <div className="p-3 bg-white">
+                          <h4 className="font-medium text-brand-dark text-sm truncate">
+                            {image.title || "Untitled"}
+                          </h4>
+                          <p className="text-xs text-brand-muted truncate">
+                            {image.category}
+                          </p>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+            )}
+          </div>
+        )}
+
+        {/* Add Image Modal */}
+        {showAddModal && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm p-4 overflow-y-auto">
+            <div className="bg-white rounded-xl shadow-xl max-w-md w-full my-8">
+              <div className="flex justify-between items-center p-6 pb-4 border-b border-sand-200 sticky top-0 bg-white rounded-t-xl">
+                <h3 className="text-lg font-bold text-brand-dark">Add New Image</h3>
+                <button
+                  onClick={() => setShowAddModal(false)}
+                  className="p-1.5 hover:bg-sand-100 rounded-lg transition-colors bg-sand-50"
+                >
+                  <svg className="w-5 h-5 text-brand-muted" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                  </svg>
+                </button>
+              </div>
+              <form onSubmit={handleAddImage} className="p-6 space-y-4 overflow-y-auto max-h-[60vh]">
+                <div>
+                  <label className="block text-sm font-medium text-brand-dark mb-1">
+                    Image <span className="text-red-500">*</span>
+                  </label>
+                  <div className="space-y-2">
+                    <input
+                      type="url"
+                      value={newImage.image_url}
+                      onChange={(e) => setNewImage({ ...newImage, image_url: e.target.value })}
+                      placeholder="https://example.com/image.jpg"
+                      className="block w-full px-3 py-2.5 border border-sand-300 rounded-lg text-sm bg-white focus:outline-none focus:ring-2 focus:ring-uae-gold focus:border-uae-gold"
+                    />
+                    <div className="relative">
+                      <input
+                        type="file"
+                        accept="image/*"
+                        onChange={handleFileUpload}
+                        disabled={uploadingFile}
+                        className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
+                      />
+                      <button
+                        type="button"
+                        disabled={uploadingFile}
+                        className="w-full px-3 py-2.5 border border-sand-300 rounded-lg text-sm bg-sand-50 text-brand-dark hover:bg-sand-100 transition-colors flex items-center justify-center gap-2"
+                      >
+                        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                        </svg>
+                        {uploadingFile ? "Uploading..." : "Upload from Computer"}
+                      </button>
+                    </div>
+                    {newImage.image_url && (
+                      <div className="relative aspect-video rounded-lg overflow-hidden bg-sand-100">
+                        <img
+                          src={newImage.image_url}
+                          alt="Preview"
+                          className="w-full h-full object-cover"
+                        />
+                      </div>
+                    )}
+                  </div>
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-brand-dark mb-1">
+                    Title
+                  </label>
+                  <input
+                    type="text"
+                    value={newImage.title}
+                    onChange={(e) => setNewImage({ ...newImage, title: e.target.value })}
+                    placeholder="Image title"
+                    className="block w-full px-3 py-2.5 border border-sand-300 rounded-lg text-sm bg-white focus:outline-none focus:ring-2 focus:ring-uae-gold focus:border-uae-gold"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-brand-dark mb-1">
+                    Description
+                  </label>
+                  <textarea
+                    value={newImage.description}
+                    onChange={(e) => setNewImage({ ...newImage, description: e.target.value })}
+                    placeholder="Image description"
+                    rows={2}
+                    className="block w-full px-3 py-2.5 border border-sand-300 rounded-lg text-sm bg-white focus:outline-none focus:ring-2 focus:ring-uae-gold focus:border-uae-gold resize-none"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-brand-dark mb-1">
+                    Category
+                  </label>
+                  <select
+                    value={newImage.category}
+                    onChange={(e) => setNewImage({ ...newImage, category: e.target.value })}
+                    className="block w-full px-3 py-2.5 border border-sand-300 rounded-lg text-sm bg-white focus:outline-none focus:ring-2 focus:ring-uae-gold focus:border-uae-gold"
+                  >
+                    <option value="general">General</option>
+                    <option value="lobby">Lobby</option>
+                    <option value="reception">Reception</option>
+                    <option value="office">Office</option>
+                    <option value="meeting">Meeting Room</option>
+                    <option value="lounge">Lounge</option>
+                    <option value="atrium">Atrium</option>
+                    <option value="business">Business Center</option>
+                    <option value="conference">Conference Hall</option>
+                    <option value="interior">Interior</option>
+                  </select>
+                </div>
+                <div className="flex gap-3 pt-2">
+                  <button
+                    type="button"
+                    onClick={() => setShowAddModal(false)}
+                    className="flex-1 px-5 py-2.5 border border-sand-300 text-brand-dark rounded-lg text-sm font-medium hover:bg-sand-50 transition-colors"
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    type="submit"
+                    disabled={addingImage || !newImage.image_url}
+                    className="flex-1 px-5 py-2.5 bg-uae-gold text-white rounded-lg text-sm font-medium hover:bg-uae-gold-dark disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                  >
+                    {addingImage ? "Adding..." : "Add Image"}
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+        )}
+
+        {/* Edit Image Modal */}
+        {editingImage && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm p-4 overflow-y-auto">
+            <div className="bg-white rounded-xl shadow-xl max-w-md w-full my-8">
+              <div className="flex justify-between items-center p-6 pb-4 border-b border-sand-200 sticky top-0 bg-white rounded-t-xl">
+                <h3 className="text-lg font-bold text-brand-dark">Edit Image</h3>
+                <button
+                  onClick={() => setEditingImage(null)}
+                  className="p-1.5 hover:bg-sand-100 rounded-lg transition-colors bg-sand-50"
+                >
+                  <svg className="w-5 h-5 text-brand-muted" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                  </svg>
+                </button>
+              </div>
+              <form onSubmit={handleUpdateImage} className="p-6 space-y-4 overflow-y-auto max-h-[70vh]">
+                <div>
+                  <label className="block text-sm font-medium text-brand-dark mb-1">
+                    Image <span className="text-red-500">*</span>
+                  </label>
+                  <div className="space-y-2">
+                    <input
+                      type="url"
+                      value={editImageData.image_url}
+                      onChange={(e) => setEditImageData({ ...editImageData, image_url: e.target.value })}
+                      placeholder="https://example.com/image.jpg"
+                      className="block w-full px-3 py-2.5 border border-sand-300 rounded-lg text-sm bg-white focus:outline-none focus:ring-2 focus:ring-uae-gold focus:border-uae-gold"
+                    />
+                    <div className="relative">
+                      <input
+                        type="file"
+                        accept="image/*"
+                        onChange={(e) => handleFileUpload(e, true)}
+                        disabled={uploadingFile}
+                        className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
+                      />
+                      <button
+                        type="button"
+                        disabled={uploadingFile}
+                        className="w-full px-3 py-2.5 border border-sand-300 rounded-lg text-sm bg-sand-50 text-brand-dark hover:bg-sand-100 transition-colors flex items-center justify-center gap-2"
+                      >
+                        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                        </svg>
+                        {uploadingFile ? "Uploading..." : "Upload from Computer"}
+                      </button>
+                    </div>
+                    {editImageData.image_url && (
+                      <div className="relative aspect-video rounded-lg overflow-hidden bg-sand-100">
+                        <img
+                          src={editImageData.image_url}
+                          alt="Preview"
+                          className="w-full h-full object-cover"
+                        />
+                      </div>
+                    )}
+                  </div>
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-brand-dark mb-1">
+                    Title
+                  </label>
+                  <input
+                    type="text"
+                    value={editImageData.title}
+                    onChange={(e) => setEditImageData({ ...editImageData, title: e.target.value })}
+                    placeholder="Image title"
+                    className="block w-full px-3 py-2.5 border border-sand-300 rounded-lg text-sm bg-white focus:outline-none focus:ring-2 focus:ring-uae-gold focus:border-uae-gold"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-brand-dark mb-1">
+                    Description
+                  </label>
+                  <textarea
+                    value={editImageData.description}
+                    onChange={(e) => setEditImageData({ ...editImageData, description: e.target.value })}
+                    placeholder="Image description"
+                    rows={2}
+                    className="block w-full px-3 py-2.5 border border-sand-300 rounded-lg text-sm bg-white focus:outline-none focus:ring-2 focus:ring-uae-gold focus:border-uae-gold resize-none"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-brand-dark mb-1">
+                    Category
+                  </label>
+                  <select
+                    value={editImageData.category}
+                    onChange={(e) => setEditImageData({ ...editImageData, category: e.target.value })}
+                    className="block w-full px-3 py-2.5 border border-sand-300 rounded-lg text-sm bg-white focus:outline-none focus:ring-2 focus:ring-uae-gold focus:border-uae-gold"
+                  >
+                    <option value="general">General</option>
+                    <option value="lobby">Lobby</option>
+                    <option value="reception">Reception</option>
+                    <option value="office">Office</option>
+                    <option value="meeting">Meeting Room</option>
+                    <option value="lounge">Lounge</option>
+                    <option value="atrium">Atrium</option>
+                    <option value="business">Business Center</option>
+                    <option value="conference">Conference Hall</option>
+                    <option value="interior">Interior</option>
+                  </select>
+                </div>
+                <div className="flex gap-3 pt-2">
+                  <button
+                    type="button"
+                    onClick={() => setEditingImage(null)}
+                    className="flex-1 px-5 py-2.5 border border-sand-300 text-brand-dark rounded-lg text-sm font-medium hover:bg-sand-50 transition-colors"
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    type="submit"
+                    disabled={updatingImage}
+                    className="flex-1 px-5 py-2.5 bg-uae-gold text-white rounded-lg text-sm font-medium hover:bg-uae-gold-dark disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                  >
+                    {updatingImage ? "Updating..." : "Update Image"}
+                  </button>
+                </div>
+              </form>
+            </div>
           </div>
         )}
       </div>

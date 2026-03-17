@@ -465,7 +465,6 @@ export async function POST(req) {
         { headers: { "Content-Type": "application/json" } }
       );
     } catch (aiError) {
-      console.error("Google Generative AI Error:", aiError);
       // Fallback to simple response system
       const simpleReply = getSimpleResponse(message);
       return new Response(
@@ -475,7 +474,6 @@ export async function POST(req) {
     }
 
   } catch (error) {
-    console.error("Chat API Error:", error);
     return new Response(
       JSON.stringify({
         reply: "I'm here to help you with Riadh Typing & Typing Services. We offer visa services, business setup, document processing, and more. Could you please specify which service you're interested in?"

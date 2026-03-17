@@ -25,14 +25,6 @@ const EnquiryForm = ({ preSelectedServices = [] }) => {
   const [servicesSearchTerm, setServicesSearchTerm] = useState('');
 
   const onSubmit = async (data) => {
-
-    // Log form data for debugging
-    console.log("Form submission data:", {
-      ...data,
-      countryCode: selectedCountry.dialCode,
-      selectedServices,
-    });
-
     // Validate services
     if (!selectedServices || selectedServices.length === 0) {
       alert("Please select at least one service");
@@ -66,18 +58,17 @@ const EnquiryForm = ({ preSelectedServices = [] }) => {
             email: data.email,
             phone: `${selectedCountry.dialCode} ${data.mobile}`,
             message: data.message,
-            source: isGetQuotePage ? "get-quote" : "enquiry" // Set source based on page
+            source: isGetQuotePage ? "get-quote" : "enquiry"
           }),
         });
       } catch (leadError) {
-        console.error("Lead API error:", leadError);
+        // Silently fail - main enquiry was sent
       }
 
       let result;
       try {
         result = await response.json();
       } catch (parseError) {
-        console.error("Error parsing response:", parseError);
         result = { message: "Invalid response from server" };
       }
 
@@ -85,11 +76,9 @@ const EnquiryForm = ({ preSelectedServices = [] }) => {
         setIsSubmitted(true);
         setSubmittedData(data);
       } else {
-        console.error("Enquiry submission failed:", result);
         alert(`Failed to submit enquiry: ${result?.message || "Please try again"}`);
       }
     } catch (error) {
-      console.error("Enquiry submission error:", error);
       alert(`An error occurred: ${error.message || "Please check your internet connection and try again"}`);
     } finally {
       setIsLoading(false);
@@ -302,7 +291,7 @@ const EnquiryForm = ({ preSelectedServices = [] }) => {
   // Country search functionality
   const [searchTerm, setSearchTerm] = useState("");
   const [showDropdown, setShowDropdown] = useState(false);
-  const [selectedCountry, setSelectedCountry] = useState(countries[0]);
+  const [selectedCountry, setSelectedCountry] = useState(countries.find(c => c.code === "AE") || countries[0]);
 
   // Filter countries based on search term
   const filteredCountries = countries.filter(country =>

@@ -438,7 +438,6 @@ export async function POST(req) {
       { status: 200 }
     );
   } catch (error) {
-    console.error("Enquiry API Error:", error);
     const errorResponse = { 
       success: false, 
       message: "Server error",
@@ -453,7 +452,6 @@ export async function POST(req) {
         }
       );
     } catch (stringifyError) {
-      console.error("Error stringifying response:", stringifyError);
       return new Response(
         JSON.stringify({ 
           success: false, 

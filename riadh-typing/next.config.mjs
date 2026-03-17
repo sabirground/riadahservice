@@ -3,7 +3,13 @@ const nextConfig = {
   images: {
     unoptimized: false,
     domains: [],
-    remotePatterns: [],
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'images.unsplash.com',
+        pathname: '/**',
+      },
+    ],
   },
   output: 'standalone',
   compress: true,
