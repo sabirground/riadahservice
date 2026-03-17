@@ -18,7 +18,7 @@ export default function Home() {
     <>
 {/* PREMIUM UAE CORPORATE HERO */}
 
-<section className="relative pt-16 md:pt-28 pb-16 md:pb-24 bg-white overflow-hidden">
+<section className="relative pt-20 md:pt-28 pb-16 md:pb-24 bg-white overflow-hidden">
 
 {/* subtle gold accent line */}
 
@@ -383,13 +383,13 @@ Transparent pricing & trusted consultants
                 and start your UAE business journey with confidence.
               </p>
 
-              <div className="flex flex-wrap justify-center gap-4">
+              <div className="flex flex-col sm:flex-row justify-center gap-4 w-full sm:w-auto">
 
                 <Link href="/get-quote">
                   <motion.span
                     whileHover={{ scale:1.02 }}
                     whileTap={{ scale:0.98 }}
-                    className="px-8 py-4 bg-gradient-to-r from-gold-400 to-gold-500 text-slate-900 font-semibold rounded-xl shadow-glow-gold"
+                    className="block w-full sm:w-auto px-8 py-4 bg-gradient-to-r from-gold-400 to-gold-500 text-slate-900 font-semibold rounded-xl shadow-glow-gold"
                   >
                     Get Free Consultation
                   </motion.span>
@@ -399,7 +399,7 @@ Transparent pricing & trusted consultants
                   <motion.span
                     whileHover={{ scale:1.02 }}
                     whileTap={{ scale:0.98 }}
-                    className="px-8 py-4 border-2 border-white/40 text-white font-semibold rounded-xl hover:bg-white/10"
+                    className="block w-full sm:w-auto px-8 py-4 border-2 border-white/40 text-white font-semibold rounded-xl hover:bg-white/10"
                   >
                     Explore Services
                   </motion.span>

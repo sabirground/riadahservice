@@ -86,7 +86,7 @@ export default function WhyUs() {
                   <span className="hero-badge-icon">🏛️</span>
                   <div className="hero-badge-text">
                     <strong>UAE Government Approved</strong>
-                    Licensed typing centre — Dubai, United Arab Emirates
+                    Licensed typing centre — Abu Dhabi- Al Ain
                   </div>
                 </div>
               </div>
@@ -453,7 +453,7 @@ export default function WhyUs() {
               <a href="tel:+971528003934" className="btn-gold">
                 📞 Call Us Now
               </a>
-              <Link href="/get-quote" className="btn-outline">
+              <Link href="/get-quote" className="btn-gold">
                 Get Free Quote
               </Link>
             </div>
@@ -1196,42 +1196,98 @@ export default function WhyUs() {
           align-items: center;
           justify-content: center;
           gap: 10px;
-          padding: 20px 40px;
-          background: linear-gradient(135deg, #d4a017 0%, #b8860b 50%, #d4a017 100%);
-          color: #ffffff;
+          padding: 16px 32px;
+          background: linear-gradient(135deg, #f0c96b 0%, #d4a017 50%, #f0c96b 100%);
+          color: #0d1117;
           font-weight: 700;
           font-size: 1rem;
-          border-radius: 50px;
-          box-shadow: 0 8px 32px rgba(212, 160, 23, 0.4);
+          border-radius: 12px;
+          box-shadow: 0 4px 20px rgba(212, 160, 23, 0.4), 0 0 0 0 rgba(212, 160, 23, 0.4);
           transition: all 0.3s ease;
           white-space: nowrap;
           text-decoration: none;
           border: 2px solid #f0c96b;
         }
         .btn-gold:hover {
-          transform: translateY(-3px) scale(1.02);
-          box-shadow: 0 12px 40px rgba(212, 160, 23, 0.5), 0 0 20px rgba(212, 160, 23, 0.3);
+          transform: translateY(-2px) scale(1.02);
+          box-shadow: 0 8px 30px rgba(212, 160, 23, 0.5), 0 0 25px rgba(212, 160, 23, 0.4);
         }
         .btn-outline {
           display: inline-flex;
           align-items: center;
           justify-content: center;
-          gap: 8px;
-          padding: 20px 40px;
-          border: 2px solid #f0c96b;
-          color: #ffffff;
+          gap: 10px;
+          padding: 18px 40px;
+          background: transparent;
+          color: #c9a227;
           font-weight: 600;
-          font-size: 1rem;
-          border-radius: 50px;
-          transition: all 0.3s ease;
+          font-size: 0.95rem;
+          text-transform: uppercase;
+          letter-spacing: 1.5px;
+          border-radius: 4px;
+          box-shadow: none;
+          transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
           white-space: nowrap;
           text-decoration: none;
-          background: transparent;
+          cursor: pointer;
+          border: 1px solid rgba(201, 162, 39, 0.4);
+          position: relative;
+          overflow: visible;
+          user-select: none;
+        }
+        .btn-outline::before {
+          content: '';
+          position: absolute;
+          inset: 0;
+          background: linear-gradient(90deg, #c9a227 0%, #f0d77c 25%, #c9a227 50%, #f0d77c 75%, #c9a227 100%);
+          background-size: 200% 100%;
+          opacity: 0;
+          transition: opacity 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+          z-index: -1;
+        }
+        .btn-outline::after {
+          content: '';
+          position: absolute;
+          inset: -2px;
+          border-radius: 6px;
+          padding: 2px;
+          background: linear-gradient(135deg, #c9a227, #f0d77c, #c9a227, #f0d77c);
+          background-size: 300% 300%;
+          -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+          -webkit-mask-composite: xor;
+          mask-composite: exclude;
+          pointer-events: none;
+          opacity: 0.6;
+          animation: borderGlow 3s ease infinite;
+          transition: opacity 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+        }
+        @keyframes borderGlow {
+          0%, 100% { background-position: 0% 50%; }
+          50% { background-position: 100% 50%; }
         }
         .btn-outline:hover {
-          background: rgba(212, 160, 23, 0.15);
-          border-color: #d4a017;
-          transform: translateY(-2px);
+          transform: translateY(-4px) scale(1.02);
+          box-shadow: 
+            0 15px 40px rgba(201, 162, 39, 0.3),
+            0 0 30px rgba(201, 162, 39, 0.15),
+            inset 0 0 20px rgba(201, 162, 39, 0.1);
+          color: #0a0a0a;
+          border-color: rgba(201, 162, 39, 0.8);
+          text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+          cursor: pointer;
+        }
+        .btn-outline:active {
+          transform: translateY(-1px) scale(0.98);
+          box-shadow: 
+            0 5px 15px rgba(201, 162, 39, 0.25),
+            0 0 15px rgba(201, 162, 39, 0.1);
+        }
+        .btn-outline:hover::before {
+          opacity: 1;
+          background-position: 100% 0;
+        }
+        .btn-outline:hover::after {
+          opacity: 0;
         }
 
         /* ─── MOBILE ──────────────────────────────────────────────── */
@@ -1314,10 +1370,27 @@ export default function WhyUs() {
           }
           .cta-btns {
             width: 100%;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
           }
           .btn-gold, .btn-outline {
             width: 100%;
             justify-content: center;
+            padding: 14px 24px;
+            font-size: 0.95rem;
+          }
+        }
+        @media (min-width: 961px) {
+          .cta-btns {
+            display: flex;
+            flex-direction: row;
+            gap: 16px;
+            align-items: center;
+          }
+          .btn-gold, .btn-outline {
+            width: auto;
+            min-width: 200px;
           }
         }
       `}</style>

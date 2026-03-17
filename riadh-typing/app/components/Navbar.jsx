@@ -43,7 +43,7 @@ export default function Navbar() {
           : "bg-white/80 backdrop-blur-md"
       }`}
     >
-      <div className="container flex items-center justify-between h-20">
+      <div className="container flex items-center justify-between h-14 md:h-20">
 
         {/* LOGO */}
 
@@ -55,9 +55,9 @@ export default function Navbar() {
             <Image
               src="/Images/logo.png-removebg-preview.png"
               alt="Riadah Services Logo"
-              width={150}
-              height={48}
-              className="h-12 w-auto transition-all duration-300 group-hover:drop-shadow-md"
+              width={120}
+              height={40}
+              className="h-10 md:h-12 w-auto transition-all duration-300 group-hover:drop-shadow-md"
             />
           </motion.div>
         </Link>

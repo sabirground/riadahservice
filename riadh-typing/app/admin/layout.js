@@ -1,20 +1,5 @@
 import "./../globals.css";
 import { ClientLayout } from "./ClientLayout";
-import { Cormorant_Garamond, DM_Sans } from "next/font/google";
-
-const cormorant = Cormorant_Garamond({
-  subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
-  variable: "--font-cormorant",
-  display: "swap",
-});
-
-const dmSans = DM_Sans({
-  subsets: ["latin"],
-  weight: ["300", "400", "500", "600", "700"],
-  variable: "--font-dm-sans",
-  display: "swap",
-});
 
 export const metadata = {
   title: "Riadah Admin Panel",
@@ -54,7 +39,7 @@ export default function AdminLayout({ children }) {
         <link rel="shortcut icon" href="/Images/logo.png-removebg-preview.png" type="image/png" />
         <link rel="apple-touch-icon" href="/Images/logo.png-removebg-preview.png" type="image/png" />
       </head>
-      <body className={`${cormorant.variable} ${dmSans.variable} font-body antialiased bg-sand-50`}>
+      <body className="font-body antialiased bg-sand-50">
         <ClientLayout>{children}</ClientLayout>
       </body>
     </html>

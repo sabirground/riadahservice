@@ -186,7 +186,7 @@ export default function Footer() {
                     className="text-sm text-slate-400 hover:text-gold-400 transition-colors duration-300 flex items-center gap-3"
                   >
                     <span className="text-gold-500">📱</span>
-                    <span>+971 5028003934</span>
+                    <span>+971 528003934</span>
                   </a>
                 </li>
                 <li>
@@ -204,7 +204,7 @@ export default function Footer() {
         </StaggerContainer>
 
         {/* Bottom */}
-        <FadeInOnScroll delay={0.3}>
+        <FadeInOnScroll delay={0.2}>
           <div className="border-t border-slate-800 mt-16 pt-8">
             <div className="flex flex-col md:flex-row items-center justify-between gap-4">
               <p className="text-sm text-slate-500">
